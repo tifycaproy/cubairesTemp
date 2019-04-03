@@ -288,8 +288,8 @@ section
 }
 .home_content
 {
-	width: 100%;
-	height: 601px;
+	/*width: 100%;
+	height: 601px;*/
 }
 .home_content_innerr
 {
@@ -392,8 +392,8 @@ section
 }
 .logo
 {
-	height: 100%;
-	padding-left: 72px;
+	/*height: 100%;
+	padding-left: 72px;*/
 }
 .logo div
 {
@@ -1271,6 +1271,10 @@ section
 {
 	width: 100%;
 	height: calc(100% + 30px);
+}
+
+.map_container iframe{
+	width: 100% !important;
 }
 
 /*********************************

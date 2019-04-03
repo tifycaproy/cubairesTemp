@@ -1,30 +1,46 @@
 
 <html lang="en">
 <head>
-    <title>Cubaires</title>
+    <title>@isset ($title) {{ $title }} @endisset</title>
+    <!-- Search Engine -->
+    <meta name="description" content="@isset ($meta_description) {{ $meta_description }} @endisset">
+    <meta name="image" content="{{asset('images/logo.png')}}">
+    <!-- Schema.org for Google -->
+    <meta itemprop="name" content="@isset ($meta_name) {{ $meta_name }} @endisset">
+    <meta itemprop="description" content="@isset ($meta_description) {{ $meta_description }} @endisset">
+    <meta itemprop="image" content="{{asset('images/logo.png')}}">
+    <!-- Open Graph general (Facebook, Pinterest & Google+) -->
+    <meta name="og:title" content="@isset ($meta_name) {{ $meta_name }} @endisset">
+    <meta name="og:description" content="@isset ($meta_description) {{ $meta_description }} @endisset">
+    <meta name="og:image" itemprop="image" content="{{asset('images/logo.png')}}">
+    <meta name="og:url" content="@isset ($meta_url) {{ $meta_url }} @endisset">
+    <meta name="og:site_name" content="@isset ($meta_name) {{ $meta_name }} @endisset ">
+    <meta name="og:locale" content="en_ES">
+    <meta name="fb:admins" content="@isset ($meta_description) {{ $meta_description }} @endisset">
+    <meta name="og:type" content="website">
 
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <meta charset="utf-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="description" content="Destino project">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
 
     <link rel="shortcut icon" href="{{asset('images/favicon.png')}} " type="image/x-icon">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="css/owl.carousel.css">
-    <link rel="stylesheet" type="text/css" href="css/owl.theme.default.css">
-    <link rel="stylesheet" type="text/css" href="css/animate.css">
-    <link rel="stylesheet" type="text/css" href="css/magnific-popup.css">
-    <link rel="stylesheet" type="text/css" href="css/main_styles.css">
-    <link rel="stylesheet" type="text/css" href="css/responsive.css">
-    <link rel="stylesheet" type="text/css" href="css/about_styles.css">
-    <link rel="stylesheet" type="text/css" href="css/about_responsive.css">
-    <link rel="stylesheet" type="text/css" href="css/offers_styles.css">
-    <link rel="stylesheet" type="text/css" href="css/offers_responsive.css">
-    <link rel="stylesheet" type="text/css" href="css/contact_styles.css">
-    <link rel="stylesheet" type="text/css" href="css/contact_responsive.css">
-    <link rel="stylesheet" type="text/css" href="css/news_styles.css">
-<link rel="stylesheet" type="text/css" href="css/news_responsive.css">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/bootstrap.min.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/owl.carousel.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/owl.theme.default.css') }}"> --}}
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/animate.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/magnific-popup.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/main_styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/about_styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/about_responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/offers_styles.css') }}">
+    {{-- <link rel="stylesheet" type="text/css" href="{{ asset('css/offers_responsive.css') }}"> --}}
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/contact_styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/contact_responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/news_styles.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/news_responsive.css') }}">
+    <link rel="stylesheet" type="text/css" href="{{ asset('css/app.css') }}">
 </head>
 
 <body>
@@ -44,7 +60,7 @@
                         <div class="logo_container">
                             <div class="logo">
                                 
-                                <div class="logo_image" style="8.5 em"><img src="{{asset('images/logo_cubaires.png')}}" alt=""></div>
+                                <div class="logo_image" style=""><img src="{{asset('images/logo.png')}}" alt=""></div>
                             </div>
                         </div>
 
@@ -54,14 +70,17 @@
                                 <li class="main_nav_item {{ Request::is('/') ? 'active' : '' }}"><a href="{{route('/')}}">Inicio</a></li>
                                 <li class="main_nav_item {{ Request::is('ofertas*') ? 'active' : '' }}"><a href="{{route('ofertas')}}">Ofertas</a></li>
                                 <li class="main_nav_item {{ Request::is('catalogo*') ? 'active' : '' }}"><a href="{{route('catalogo')}}">Catálogo</a></li>
+                                 <li class="main_nav_item {{ Request::is('sesion*') ? 'active' : '' }}"><a href="{{route('sesion')}}">Ingresa</a></li>
                             </ul>
                         </nav>
 
                         <!-- Search -->
-                        <div class="search">
-                            <form action="#" class="search_form">
+                        <div class="search ">
+                            <form action="{{ route('catalogo/buscar') }}" method="post" class="search_form">
+                                {{ csrf_field() }}
                                 <input type="search" name="search_input" class="search_input ctrl_class" required="required" placeholder="Buscar">
-                                <button type="submit" class="search_button ml-auto ctrl_class"><img src="images/search.png" alt=""></button>
+
+                                <button type="submit" class="search_button ml-auto ctrl_class"><img src="{{ asset('images/search.png') }}" alt=""></button>
                             </form>
                         </div>
 
@@ -96,6 +115,7 @@
                     <li class="menu_item menu_mm"><a href="/">Inicio</a></li>
                     <li class="menu_item menu_mm"><a href="{{route('ofertas')}}">Ofertas</a></li>
                     <li class="menu_item menu_mm"><a href="{{route('catalogo')}}">Catálogo</a></li>
+                    <li class="menu_item menu_mm"><a href="{{route('sesion')}}">Ingresa</a></li>
                 </ul>
 
                 <!-- Menu Social -->
@@ -107,7 +127,7 @@
                     </ul>
                 </div>
 
-                <div class="menu_copyright menu_mm">Cubaires….Todo bien!</div>
+                <div class="menu_copyright menu_mm"></div>
             </div>
         </div>
     </div>
@@ -123,7 +143,7 @@
                 <div class="logo_container">
                         <div class="logo">
                             <div class="logo_image">
-                                <img src="{{('images/logo_cubaires.png')}}" alt="" href="{{route('/')}}">
+                                <img src="{{ asset('images/logo.png') }}" alt="" href="{{route('/')}}">
                             </div>
                         </div>
                     </div>
@@ -132,15 +152,15 @@
                 <div class="col-lg-4 footer_col">
                     <div class="footer_about">
                         <div class="footer_about_text">
-                            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Integer pulvinar sed mauris eget tincidunt. Sed lectus nulla, tempor vel eleifend quis, tempus rut rum metus. Pellentesque ultricies enim eu quam fermentum hendrerit.
+                           @isset ($descripcion){{ $descripcion }}@endisset 
                         </div>
                         <div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright ©
                             <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js">
                             </script>
                             <script>document.write(new Date().getFullYear());
-                            </script>. All rights reserved | This page is made with
-                            <i class="fab fa-heart-o" aria-hidden="true"></i> by <a href="" target="_blank">TIFYCA</a>
+                            </script>. @isset ($title) {{ $title }} @endisset. Todos los Derechos Reservados - Desarrollado
+                            <i class="fab fa-heart-o" aria-hidden="true"></i> por <a href="" target="_blank">TIFYCA</a>
                             <!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                         </div>
                     </div>
@@ -155,7 +175,7 @@
                             <!-- Footer Latest Post -->
                             <div class="footer_latest_item">
                                     <div class="footer_latest_item_content">
-                                    <div class="footer_latest_item_title" style="border-bottom: 1px solid rgb(254, 60, 82);"><a href="{{route('/')}}">Inicio</a></div>
+                                    <div class="footer_latest_item_title"  style="border-bottom: 1px solid rgb(254, 60, 82);"><a href="{{route('/')}}">Inicio</a></div>
                                 </div>
                             </div>
 
@@ -181,15 +201,18 @@
                         <div class="footer_title">Contacto</div>
                         <div class="footer_about_text">
                             <ul>
-                                <li>Address: 1481 Creekside Lane Avila Beach, CA 93424</li>
-                                <li>Phone: +34 96 381 30 72</li>
-                                <li>Email: cubaires@cubairestravel.com</li>
+                                <li>Address: @isset ($direccion) {{ $direccion }} @endisset</li>
+                                <li>Phone: @isset ($telefono) {{ $telefono }} @endisset</li>
+                                <li>Email: @isset ($email) {{ $email }} @endisset</li>
                             </ul>
                             <div class="contact_info_social">
                                 <ul>
-                                    <li><a href="#"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>
-                                    <li><a href="#"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>
+                                    @isset ($facebook)<li><a href="{{ $facebook }}"><i class="fab fa-facebook" aria-hidden="true"></i></a></li>  @endisset
+                                    @isset ($twitter)<li><a href="{{ $twitter }}"><i class="fab fa-twitter" aria-hidden="true"></i></a></li>  @endisset
+                                    @isset ($instagram)<li><a href="{{ $instagram }}"><i class="fab fa-instagram" aria-hidden="true"></i></a></li>  @endisset
+                                    
+                                    
+                                    
                                 </ul>
                             </div>
                         </div>
@@ -201,38 +224,29 @@
     </footer>
 </div>
 
-<script src="js/jquery-3.2.1.min.js"></script>
-<script src="js/popper.js"></script>
-<script src="js/bootstrap.min.js"></script>
-<script src="js/owl.carousel.js"></script>
-<script src="js/easing.js"></script>
-{{-- <script src="js/parallax.min.js"></script> --}}
-<script src="js/jquery.magnific-popup.min.js"></script>
-<script src="js/custom.js"></script>
-<script src="js/parallax.js"></script>
+<script src="{{ asset('js/jquery-3.2.1.min.js') }}"></script>
+<script src="{{ asset('js/popper.js') }}"></script>
+<script src="{{ asset('js/bootstrap.min.js') }}"></script>
+<script src="{{ asset('js/owl.carousel.js') }}"></script>
+<script src="{{ asset('js/jquery.magnific-popup.min.js') }}"></script>
+<script src="{{ asset('js/custom.js') }}"></script>
+<script src="{{ asset('js/parallax.js') }}"></script>
+<script src="{{ asset('js/TweenMax.min.js') }}"></script>
+<script src="{{ asset('js/ScrollMagic.min.js') }}"></script>
+<script src="{{ asset('js/about_custom.js') }}"></script>
+<script src="{{ asset('js/offers_custom.js') }}"></script>
+<script src="{{ asset('js/isotope.pkgd.min.js') }}"></script>
 
-<script src="js/TweenMax.min.js"></script>
-<script src="js/TimelineMax.min.js"></script>
-<script src="js/ScrollMagic.min.js"></script>
-<script src="js/animation.gsap.min.js"></script>
-<script src="js/ScrollToPlugin.min.js"></script>
-<script src="js/easing.js"></script>
-<script src="js/parallax.min.js"></script>
-<script src="js/about_custom.js"></script>
-<script src="js/offers_custom.js"></script>
-<script src="js/isotope.pkgd.min.js"></script>
-<script src="https://maps.googleapis.com/maps/api/js?v=3.exp&key=AIzaSyCIwF204lFZg1y4kPSIhKaHEXMLYxxuMhA"></script>
-<script src="js/contact_custom.js"></script>
-<script src="js/news_custom.js"></script>
 
-<!-- Global site tag (gtag.js) - Google Analytics -->
-<script async="" src="https://www.googletagmanager.com/gtag/js?id=UA-23581568-13"></script>
+
 <script>
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
 
   gtag('config', 'UA-23581568-13');
+
+ 
 </script>
 
 @stack('scripts')

@@ -287,8 +287,8 @@ section
 }
 .home_content
 {
-	width: 100%;
-	height: 601px;
+	/*width: 100%;
+	height: 601px;*/
 }
 .home_content_inner
 {
@@ -392,8 +392,8 @@ section
 }
 .logo
 {
-	height: 100%;
-	padding-left: 72px;
+	/*height: 100%;
+	padding-left: 72px;*/
 }
 .logo div
 {
@@ -404,7 +404,7 @@ section
 {
 	width: 135px;
 	top: -38px;
-	left: 46px;
+	/*left: 46px;*/
 }
 .logo div:nth-child(2)
 {
@@ -521,7 +521,7 @@ section
 }
 .search.active
 {
-	width: 300px;
+	width: 320px;
 }
 .search:hover
 {

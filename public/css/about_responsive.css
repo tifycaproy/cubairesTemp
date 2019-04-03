@@ -81,6 +81,19 @@
 
 @media only screen and (max-width: 1024px)
 {
+
+	.carrousel{
+		height: 400px; 
+		overflow: hidden;
+	}
+
+	.cabecera_an{
+		height: 30%;
+	}
+	.h-paquete{
+		min-height: 250px;;
+	}
+
 	
 }
 
@@ -257,7 +270,7 @@
 	}
 	.logo
 	{
-		padding-left: 33px;
+		/*padding-left: 33px;*/
 	}
 	.logo_image
 	{
@@ -329,7 +342,7 @@
 	}
 	.home_content
 	{
-		height: 372px;
+		/*height: 372px;*/
 	}
 	.home_title
 	{
@@ -447,6 +460,17 @@
 	.newsletter_input::input-placeholder
 	{
 		font-size: 12px !important;
+	}
+	.carrousel{
+		height: 200px; 
+		overflow: hidden;
+	}
+	.cabecera_an{
+		height: 40%;
+	}
+
+	.h-paquete{
+		min-height: 250px;;
 	}
 }
 

@@ -33,6 +33,42 @@
 @import url('https://fonts.googleapis.com/css?family=Montserrat:100,200,300,400,500,600,700,800,900');
 
 /*********************************
+2. PERSONALIADO
+*********************************/
+.carrousel{
+	height: 700px; 
+	overflow: hidden;
+}
+.paralan{
+	 background-size: cover; 
+	 background-position: center center; 
+	 background-repeat: no-repeat; 
+	 background-attachment: fixed
+}
+.paral{
+	 background-size: cover; 
+	 background-position: center center; 
+	 background-repeat: no-repeat; 
+}
+.h-paquete{
+		min-height: 350px;;
+	}
+.alertan{
+	position: fixed; 
+	top: 200px; 
+	z-index;z-index: 999;
+	margin-right: auto;
+	margin-left: auto;
+	left: 10%; 
+	display: none
+}
+.cabecera_an{
+	height: 77%;
+}
+.cabecera_an_detalle{
+	height: 50%;
+}
+/*********************************
 2. Body and some general stuff
 *********************************/
 
@@ -254,8 +290,8 @@ section
 }
 .home_content
 {
-	width: 100%;
-	height: 601px;
+	/*width: 100%;
+	height: 601px;*/
 }
 .home_content_inner
 {
@@ -358,8 +394,8 @@ section
 }
 .logo
 {
-	height: 100%;
-	padding-left: 72px;
+	/*height: 100%;
+	padding-left: 72px;*/
 }
 .logo div
 {

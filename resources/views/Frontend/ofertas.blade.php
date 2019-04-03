@@ -3,21 +3,20 @@
 @section('contenido')
 
     <!-- Home -->
-    <div class="home" style="height: 34em;">
-        <div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/offers.jpg" data-speed="0.8">
-        </div>
-        <div class="container">
-            <div class="row">
+    <div class="cabecera_an" >
+        <div class="home_background paralan" style="background-image: url('{{ asset('images/news_2.jpg') }}');"></div>
+        <div class="container h-100">
+            <div class="row h-100">
                 <div class="col">
                     <div class="home_content">
                         <div class="home_content_inner">
-                            <div class="home_title">Ofertas</div>
-                            <div class="home_breadcrumbs">
+                            <div class="home_title pl-3"><b>Ofertas</b></div>
+                           {{--  <div class="home_breadcrumbs">
                                 <ul class="home_breadcrumbs_list">
                                     <li class="home_breadcrumb"><a href="{{route('/')}}">Inicio</a></li>
                                     <li class="home_breadcrumb">Ofertas</li>
                                 </ul>
-                            </div>
+                            </div> --}}
                         </div>
                     </div>
                 </div>
@@ -38,7 +37,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <div class="row filtering_row">
+           {{--  <div class="row filtering_row">
                 <div class="col">
                     <div class="sorting_group_1">
                         <ul class="item_sorting">
@@ -98,128 +97,50 @@
             </div> --}}
 
            <div class="col">
-                    <div class="items item_grid clearfix" style="position: relative; height: 849.8px;">
-
-                        <!-- Item -->
-                        <div class="item clearfix rating_5 box" style="position: absolute; left: 0px; top: 0px;">
-                            <div class="item_image">
-                                <img src="{{asset('images/top_1.jpg')}}" alt="">
-                            </div>
-                            <div class="item_content">
-                                <div class="item_price"><b>Antes 1645.00€</b> </div>
-                                <div class="item_title"><b>Ahora 1000.00€</b></div>
-                                <br>
-                                <div class="item_title">Fly & Drive: Especial Observación Aves</div>
+                    <div class=" row" >
+                        @foreach ($ofertas as $paquete)
+                            <div class="col-12 col-sm-6 mt-5" style="">
+                                <div class="row">
+                                    
                                 
-                                <div class="rating rating_5" data-rating="5">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                 <div class="item_image paral h-paquete col-sm-6 col-12" style="  background-image: url('{{asset('images/servicios') }}/{{ $paquete->url_imagen }}');">
+                                    
                                 </div>
-                                <div class="item_text">Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Fusce fringilla lectus nec diam auctor, ut fringilla
-                                    diam sagittis. Quisque vel est id justo faucibus dapibus id a nibh.
-                                    Aenean suscipit consequat lacus, sit amet mollis nulla. Morbi sagittis
-                                    orci id lacus convallis tempus eget sit amet metus.
+                                 <div class="item_content col-sm-6 col-12 mt-4 p-0 px-sm-3">
+                                    <div class="item_price"><b>Antes @php
+                                        echo (int)$paquete->monto;
+                                    @endphp  €</b> </div>
+                                    <div class="item_title"><b>Ahora @php
+                                      $descuento =  (int)$paquete->monto * $paquete->oferta /100;
+                                      echo (int)$paquete->monto-$descuento;
+                                    @endphp €</b></div>
+                                    <br>
+                                    <div class="item_title"><a style="color: black" href="{{route('detalle',$paquete->id)}}">{{ $paquete->titulo_servicio }}</a></div>
+                                    
+                                    <div class="rating rating_5" data-rating="5">
+                                        @php
+                                            $longitud = $paquete->valoracion;
+                                        @endphp
+                                        @for ($i = 0; $i < $longitud; $i++)
+                                            <i class="fa fa-star"></i>
+                                        @endfor
+                                         
+                                    </div>
+                                    {{-- <div class="item_text">
+                                        {!! html_entity_decode($paquete->descripcion) !!}
+                                    </div> --}}
+                                    <div class="item_more_link"><a href="{{route('detalle',$paquete->id )}}">Detalles</a></div>
                                 </div>
-                                <div class="item_more_link"><a href="{{route('detalle')}}">Detalles</a></div>
+                                </div>
                             </div>
-                        </div>
-
-                        <!-- Item -->
-                        <div class="item clearfix rating_3 box" style="position: absolute; left: 570px; top: 0px;">
-                            <div class="item_image">
-                                <img src="{{asset('images/top_2.jpg')}}" alt="">
-                            </div>
-                            <div class="item_content">
-                                <div class="item_price"><b>Antes 1000.00€</b> </div>
-                                <div class="item_title"><b>Ahora 950.00€</b></div>
-                                <br>
-                                <div class="item_title">Fly & Drive en Jeep: La Habana, Rio Canimar y Varadero</div>
-                               
-                                <div class="rating rating_3" data-rating="3">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="item_text">Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Fusce fringilla lectus nec diam auctor, ut fringilla
-                                    diam sagittis. Quisque vel est id justo faucibus dapibus id a nibh.
-                                    Aenean suscipit consequat lacus, sit amet mollis nulla. Morbi sagittis
-                                    orci id lacus convallis tempus eget sit amet metus.
-                                </div>
-                                <div class="item_more_link"><a href="{{route('detalle')}}">Detalles</a></div>
-                            </div>
-                        </div>
-
-                        <!-- Item -->
-                        <div class="item clearfix rating_4 box" style="position: absolute; left: 0px; top: 424px;">
-                            <div class="item_image">
-                                <img src="{{asset('images/top_3.jpg')}}" alt="">
-                            </div>
-                            <div class="item_content">
-                                <div class="item_price"><b>Antes 1985.00€</b> </div>
-                                <div class="item_title"><b>Ahora 1230.00€</b></div>
-                                <br>
-                                <div class="item_title">Entre Flamencos</div>
-                                
-                                <div class="rating rating_4" data-rating="4">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="item_text">Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Fusce fringilla lectus nec diam auctor, ut fringilla
-                                    diam sagittis. Quisque vel est id justo faucibus dapibus id a nibh.
-                                    Aenean suscipit consequat lacus, sit amet mollis nulla. Morbi sagittis
-                                    orci id lacus convallis tempus eget sit amet metus.
-                                </div>
-                                <div class="item_more_link"><a href="{{route('detalle')}}">Detalles</a></div>
-                            </div>
-                        </div>
-
-                        <!-- Item -->
-                        <div class="item clearfix rating_5 box" style="position: absolute; left: 570px; top: 424px;">
-                            <div class="item_image">
-                                <img src="{{asset('images/top_4.jpg')}}" alt="">
-                            </div>
-                            <div class="item_content">
-                                
-                                <div class="item_price"><b>Antes 1248.00€</b> </div>
-                                <div class="item_title"><b>Ahora 900.00€</b></div>
-                                <br>
-                                <div class="item_title">Fly & Drive: Occidente al completo </div>
-                                
-                                <div class="rating rating_5" data-rating="5">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                </div>
-                                <div class="item_text">Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Fusce fringilla lectus nec diam auctor, ut fringilla
-                                    diam sagittis. Quisque vel est id justo faucibus dapibus id a nibh.
-                                    Aenean suscipit consequat lacus, sit amet mollis nulla. Morbi sagittis
-                                    orci id lacus convallis tempus eget sit amet metus.
-                                </div>
-                                <div class="item_more_link"><a href="{{route('detalle')}}">Detalles</a></div>
-                            </div>
-                        </div>
-
+                        @endforeach
                     </div>
                 </div>
                 <div class="row justify-content-center align-items-center">
                     <div class="col-4">
-                        <div class="button about_button">
+                        {{-- <div class="button about_button">
                             <a href="#">Ver más</a>
-                        </div>
+                        </div> --}}
                     </div>
                 </div>
         </div>

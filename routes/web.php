@@ -11,21 +11,59 @@
 |
 */
 
+
+
 // Route::get('/', function () {
 //     return view('welcome');
 // });
 //
 // FRONTEND
+// 
+// 
 
 Route::get('/', 'Frontend\homeController@index')->name('/');
 Route::get('nosotros', 'Frontend\homeController@nosotros')->name('nosotros');
 Route::get('ofertas', 'Frontend\homeController@ofertas')->name('ofertas');
 Route::get('catalogo', 'Frontend\homeController@catalogo')->name('catalogo');
 Route::get('contacto', 'Frontend\homeController@contacto')->name('contacto');
-Route::get('detalle', 'Frontend\homeController@detalle')->name('detalle');
-Route::get('categorias_tours', 'Frontend\homeController@categorias')->name('categorias_tours');
+Route::get('detalle/{id}', 'Frontend\homeController@detalle')->name('detalle');
+Route::get('categorias_tours/{id}', 'Frontend\homeController@categorias')->name('categorias_tours');
+Route::post('catalogo/buscar', 'Frontend\homeController@catalogo')->name('catalogo/buscar');
+
+
+Route::get('sesion', 'Frontend\homeController@sesion')->name('sesion');
+Route::get('registro', 'Frontend\homeController@registro')->name('registro');
+Route::get('usuario', 'Frontend\homeController@usuario')->name('usuario');
+Route::get('solicitar', 'Frontend\homeController@solicitar')->name('solicitar');
+Route::get('recuperar', 'Frontend\homeController@recuperar')->name('recuperar');
+Route::get('contraseña', 'Frontend\homeController@contraseña')->name('contraseña');
 
 //---------------------------------------------------------------------
+
+
+//CREAR NEWLESTER
+Route::post('create_newlester', 'Ajax\AjaxNewlester@create')->name('create_newlester');
+////
+///
+/////ENVIAR MENSAJE DE CONTACTO
+Route::post('send_mail', 'Ajax\AjaxMail@contactoController')->name('send_mail');
+////
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // BACKEND
 App::setLocale("es");
@@ -177,6 +215,12 @@ Route::group(['middleware' => 'auth'], function()
   Route::post('/admin/tramites/{id_servicio}/{id_solicitante}', ['as' => 'actualizartramite', 'uses'=>'Backend\SolicitudController@update']);  
   //********************** FIN TRAMITES ****************************************
 
+  
+   // CONFIGURACIONES
+
+//  Route::resource('configuracion', 'Backend\Configuracion\ConfigurarController');
+ Route::get('/admin/config', ['as' => 'verconfiguraciones', 'uses'=>'Backend\Configuraciones\ConfiguracionesController@index']);  
+ Route::post('/admin/config', ['as' => 'ingresarconfiguracion', 'uses'=>'Backend\Configuraciones\ConfiguracionesController@store']);  
 
   //Llamar el Login de Usuario
   // Route::get('admin', ['as' => 'login', 'uses'=>'Auth\RegisterController@login']);
@@ -185,6 +229,7 @@ Route::group(['middleware' => 'auth'], function()
   //Cerrar la Sesión de Usuario
   // Route::post('admin', ['as' => 'cerrarsesion', 'uses'=>'Auth\RegisterController@logout']);
   //Listar registros de Usuarios
+  
 
   //********************** USUARIOS ****************************************
   Route::get('/admin/usuarios', ['as' => 'verusuarios', 'uses'=>'Auth\RegisterController@list']);
@@ -201,6 +246,7 @@ Route::group(['middleware' => 'auth'], function()
   // Inicio del Sistema, con login o despues del login el administrador
   Route::get('admin', 'HomeController@index')->name('index');
   //********************** FIN USUARIOS ****************************************
+
 
   Route::get('/admin/{modulo}',['as' => 'ingresarmodulo', 'uses' => 'Backend\homeController@modulos']);
 });

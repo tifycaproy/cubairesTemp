@@ -5,21 +5,15 @@
     
 <div class="super_container">
 
-<!-- Home -->
-    <div class="home" style="height: 34em;">
-        <div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/news.jpg" data-speed="0.8"></div>
-        <div class="container">
-            <div class="row">
+    <div class="cabecera_an_detalle">
+        <div class="home_background paralan" style=" background-image: url('{{asset('images/servicios') }}/{{ $paquete->url_imagen }}');">
+        </div>
+        <div class="container h-100">
+            <div class="row h-100">
                 <div class="col">
                     <div class="home_content">
-                        <div class="home_content_inner">
-                            <div class="home_title">Detalles</div>
-                            <div class="home_breadcrumbs">
-                                <ul class="home_breadcrumbs_list">
-                                    <li class="home_breadcrumb"><a href="{{route('/')}}">Inicio</a></li>
-                                    <li class="home_breadcrumb">Detalles</li>
-                                </ul>
-                            </div>
+                        <div class="home_content_inner pl-3">
+                            <div class="home_title"><b>{{ $paquete->titulo_servicio }}</b></div>
                         </div>
                     </div>
                 </div>
@@ -27,42 +21,53 @@
         </div>
     </div>
 
-
-
- <!-- Offers -->
- <div class="offers">
+ <div class="offers pb-2">
         <div class="container">
             <div class="row">
                 <div class="col">
-                    <div class="items item_grid clearfix" style="position: relative; height: 1699.6px;">
-
-                        <!-- Item -->
+                    <div class="items item_grid clearfix">
                         <div class="item clearfix rating_5">
-                            <div class="item_image">
-                                <img src="{{asset('images/top_1.jpg')}}" alt="">
-                            </div>
-                            <div class="item_content">
-                                <div class="item_price"><b>Desde 1645.00€</b></div>
+                            <div class="col-12">
+                                <div class="item_price">@if ($paquete->oferta != NULL)
+                <b>Antes 
+                @php
+                    echo (int)$paquete->monto;
+                @endphp  € </b> </div>
+                <div class="item_title">
+                <b>Ahora @php
+                    $descuento =  (int)$paquete->monto * $paquete->oferta /100;
+                    echo (int)$paquete->monto-$descuento;
+                @endphp € </b>
+
+            @else
+            <b>Desde @php
+                echo (int)$paquete->monto;
+            @endphp €</b>
+            @endif</div>
                                 <br>
-                                <div class="item_title">Fly & Drive: Especial Observación Aves</div>
+                                <div class="item_title">{{ $paquete->titulo_servicio }}</div>
                                 
                                 <div class="rating rating_5" data-rating="5">
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
-                                    <i class="fa fa-star"></i>
+                                    @php
+                                            $longitud = $paquete->valoracion;
+                                        @endphp
+                                        @for ($i = 0; $i < $longitud; $i++)
+                                            <i class="fa fa-star"></i>
+                                        @endfor
                                 </div>
-                                <div class="item_text">Lorem ipsum dolor sit amet, consectetur
-                                    adipiscing elit. Fusce fringilla lectus nec diam auctor, ut fringilla
-                                    diam sagittis. Quisque vel est id justo faucibus dapibus id a nibh.
-                                    Aenean suscipit consequat lacus, sit amet mollis nulla. Morbi sagittis
-                                    orci id lacus convallis tempus eget sit amet metus.
+                                <div class="item_text">
+                                    {!! html_entity_decode($paquete->descripcion) !!}
                                 </div>
-                                <div class="button about_button" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"> <a href="#multiCollapseExample1" >Detalles</a></div>
-                                <div class="button about_button" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2"><a href="#multiCollapseExample2">Condiciones</a></div>
-                            </div>
-                                                        
+                                <div class="d-flex">
+                                    <div class="button about_button" data-toggle="collapse" href="#multiCollapseExample1" role="button" aria-expanded="false" aria-controls="multiCollapseExample1"> <a  >Detalles</a></div>
+
+                                <div class="button about_button ml-2" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2"><a >Condiciones</a></div>
+                                </div>
+
+                                <div class="button about_button" href="{{route('solicitar')}}" ><a href="{{route('solicitar')}}">Solicitar</a></div>
+
+                                
+                            </div>                         
                         </div>
                         
                     </div>
@@ -74,12 +79,7 @@
                             
                             <div class="col-lg-12">
                                 <div class="contact_text">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                                        fringilla lectus nec diam auctor, ut fringilla diam sagittis. Quisque
-                                        vel est id justo faucibus dapibus id a nibh. Aenean suscipit consequat
-                                        lacus, sit amet mollis nulla. Morbi sagittis orci id lacus convallis
-                                        tempus eget sit amet metus.
-                                    </p>
+                                    {!! html_entity_decode($paquete->detalles) !!}
                                 </div>
                             </div>
                         </div>
@@ -92,12 +92,7 @@
                             
                             <div class="col-lg-12">
                                 <div class="contact_text">
-                                    <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Fusce
-                                        fringilla lectus nec diam auctor, ut fringilla diam sagittis. Quisque
-                                        vel est id justo faucibus dapibus id a nibh. Aenean suscipit consequat
-                                        lacus, sit amet mollis nulla. Morbi sagittis orci id lacus convallis
-                                        tempus eget sit amet metus.
-                                    </p>
+                                    {!! html_entity_decode($paquete->condiciones) !!}
                                 </div>
                             </div>
                         </div>
@@ -107,15 +102,53 @@
             
         </div>
     </div>
+<div class="popular mt-5 mb-5">
+    <div class="container mt-5">
+        <div class="row">
+            <div class="col">
+                <div class="section_title text-center">
+                    <h2>Otros destino para ti</h2>
 
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="popular_content ">
+                    <div class="row">
+                       @foreach ($servicios as $paque)
+                        <div class=" col-lg-3 col-12 mt-3 col-md-6" >
+                            <div class="" style="height: 200px;background-image: url('{{asset('images/servicios') }}/{{ $paque->url_imagen }}'); background-size: cover; background-position: center center; background-repeat: no-repeat;">
+                               <a href="{{ route('detalle', $paque->id) }}">
+                                {{-- <img src="{{asset('images/servicios')}}/{{ $paque->url_imagen }}" > --}}
+                                <div class="popular_item_content">
+                                    <div class="popular_item_price">Desde @php
+                                        echo (int)$paque->monto;
+                                    @endphp  €</div>
+                                    <div class="popular_item_title">{{ $paque->titulo_servicio }}</div>
+                                </div>
+                            </a> 
+                            </div>
+                            
+                        </div>
+                    @endforeach 
+                    </div>
+
+                    
+                    
+
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
 	
 </div>
 
 @endsection
 @push('scripts')
 <script>
-    var route='{{asset('images/find.jpg') }}';
-    $('.evento').parallax({imageSrc: route});
 </script>
 
 @endpush

@@ -133,7 +133,9 @@ span.sub {
 	padding: 4px 12px;
 	text-shadow: 2px 2px 3px rgba(0, 0, 0, 0.14);
 }
-
+.mfp-iframe-holder .mfp-content{
+	height: 100% !important;
+}
 .top-header {
     background-color: #ffffff;
 }
@@ -2045,6 +2047,7 @@ h5#exampleModalLongTitle {
 	.ab-info-text {
 		padding: 3em 2em;
 	}
+	
 }
 
 @media(max-width:568px) {
