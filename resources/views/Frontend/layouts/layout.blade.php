@@ -93,7 +93,7 @@
     </header>
 
 <!-- Menu -->
-    <div class="menu_container menu_mm">
+    <div class="menu_container menu_mm" style="overflow: scroll;">
 
         <!-- Menu Close Button -->
         <div class="menu_close_container">
@@ -111,12 +111,42 @@
                         </button>
                     </form>
                 </div>
-                <ul class="menu_list menu_mm">
+
+                <div class="sidebar-content menu_mm">
+                        <div class="sidebar-user px-0 d-flex d-sm-block ">
+                          <img src="{{asset('images/avatar.png')}}" class="img-fluid rounded-circle mb-2">
+                            <div class="text-left pl-2 text-sm-center">
+                                <div class="font-weight-bold">José Perez</div>
+                                <small>V-11.345.678 - @jperez.com<br>Venezuela - +58 412 845 8485</small>
+                            </div>
+                        </div>
+                </div>
+
+                <ul class="menu_list menu_mm mt-1">
                     <li class="menu_item menu_mm"><a href="/">Inicio</a></li>
                     <li class="menu_item menu_mm"><a href="{{route('ofertas')}}">Ofertas</a></li>
                     <li class="menu_item menu_mm"><a href="{{route('catalogo')}}">Catálogo</a></li>
                     <li class="menu_item menu_mm"><a href="{{route('sesion')}}">Ingresa</a></li>
                 </ul>
+
+                <ul class="menu_list menu_mm">
+                          
+                        <li class="menu_mm">
+                          <a href="#layouts" class="sidebar-link p-0 m-0">
+                              <i class="align-middle mr-2 fas fa-key"></i>
+                              <span class="align-middle" style="font-size:14px">Cambiar Contraseña</span>
+                            </a>                    
+                        </li>
+              
+                        <li class=" menu_mm">
+                          <a href="#layouts" class="sidebar-link p-0 m-0">
+                              <i class="align-middle mr-2 fas fa-door-open"></i>
+                              <span class="align-middle" style="font-size:14px">Salir</span>
+                            </a>                    
+                        </li>
+                      </ul>
+
+                
 
                 <!-- Menu Social -->
                 <div class="menu_social_container menu_mm">
@@ -142,7 +172,7 @@
                 <!-- Logo -->
                 <div class="logo_container">
                         <div class="logo">
-                            <div class="logo_image">
+                            <div class="logo_image" style="top: 0px;">
                                 <img src="{{ asset('images/logo.png') }}" alt="" href="{{route('/')}}">
                             </div>
                         </div>
@@ -153,7 +183,7 @@
                     <div class="footer_about">
                         <div class="footer_about_text">
                            @isset ($descripcion){{ $descripcion }}@endisset 
-                        </div>
+                        </div>  
                         <div class="copyright"><!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
                             Copyright ©
                             <script type="text/javascript" async="" src="https://www.google-analytics.com/analytics.js">

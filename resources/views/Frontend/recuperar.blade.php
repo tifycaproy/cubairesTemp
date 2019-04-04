@@ -2,31 +2,6 @@
 
 @section('contenido')
 
-  <!-- Home -->
-  <div class="home" style="height: 34em;">
-    <div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/offers.jpg" data-speed="0.8">
-    </div>
-    <div class="container">
-        <div class="row">
-            <div class="col">
-                <div class="home_content">
-                    <div class="home_content_inner">
-                        <div class="home_title">Recuperar Constraseña</div>
-                        <div class="home_breadcrumbs">
-                            <ul class="home_breadcrumbs_list">
-                                <li class="home_breadcrumb"><a href="{{route('/')}}">Inicio</a></li>
-                                <li class="home_breadcrumb">Recuperar Constraseña</li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-</div>
-
-
-
 
 <div class="offers">
         <div class="last_background parallax-window" style="background-image: url('{{asset('images/last.jpg')}}'); background-position: top; opacity: 0.3;" data-speed="0.8"></div>
@@ -34,7 +9,7 @@
              
             <div class="row justify-content-center">
                 
-                <div class="col-lg-6  d-flex" style="padding-top: 70px;">
+                <div class="col-lg-6  d-flex formulario" >
                     
                         <div class="last_item_content">
                            
