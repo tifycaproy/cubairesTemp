@@ -5,21 +5,13 @@
 
 
     <!-- Home -->
-        <div class="home" style="height: 34em;">
+        <div class="home" style="height: 16em;">
             <div class="home_background parallax-window" data-parallax="scroll" data-image-src="images/news.jpg" data-speed="0.8"></div>
             <div class="container">
                 <div class="row">
                     <div class="col">
                         <div class="home_content">
-                            <div class="home_content_inner">
-                                <div class="home_title">Usuario</div>
-                                <div class="home_breadcrumbs">
-                                    <ul class="home_breadcrumbs_list">
-                                        <li class="home_breadcrumb"><a href="{{route('/')}}">Inicio</a></li>
-                                        <li class="home_breadcrumb">Usuariio</li>
-                                    </ul>
-                                </div>
-                            </div>
+                            
                         </div>
                     </div>
                 </div>
@@ -58,7 +50,8 @@
             </nav>
 
             <div class="main">
-              {{-- <nav class="navbar navbar-expand navbar-dark">
+              
+             <nav class="navbar navbar-expand navbar-dark">
         
                 <div class="navbar-collapse collapse">
                   <ul class="navbar-nav ml-auto">
@@ -205,8 +198,7 @@
                   </ul>
                 </div>
         
-              </nav> --}}
-
+              </nav>
               <main class="content">
                 <div class="container-fluid">
         
