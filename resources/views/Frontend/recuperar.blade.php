@@ -14,15 +14,21 @@
                         <div class="last_item_content">
                            
                             <div class="last_title text-center">Ingresa tu e-mail por favor</div><br>
-                                                        
-                            <form action="#" id="contact_form" class="clearfix">
-                                <input id="contact_input_email" class="contact_input contact_input_email" type="text" placeholder="E-mail" required="required" data-error="E-mail is required.">
-                            </form>
-                            
-
-                            <div class="button last_button">
-                            <a href="{{route('contraseña')}}">Siguiente</a>
-                            </div>
+                            @if (session('status'))
+                            <div class="alert alert-success">
+                                {{ session('status') }}
+                                </div>
+                            @endif                           
+                            <form id="contact_form" class="clearfix" method="POST" action="{{ route('password.email') }}">
+                                    {{ csrf_field() }}
+                                <input id="contact_input_email" class="contact_input contact_input_email" value="{{ old('email') }}" autofocus name="email" type="email" placeholder="E-mail" required="required" data-error="E-mail is required.">
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                            <input style="color:white;" type="submit" class="button last_button" value="Siguiente">
+                            </form> 
                             
                                 <br><br>
                                 

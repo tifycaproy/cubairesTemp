@@ -26,8 +26,8 @@
               <div class="sidebar-content">
                 <div class="sidebar-user">
                   <img src="{{asset('images/avatar.png')}}" class="img-fluid rounded-circle mb-2">
-                  <div class="font-weight-bold">José Perez</div>
-                  <small>V-11.345.678 - @jperez.com<br>Venezuela - +58 412 845 8485</small>
+                  <div class="font-weight-bold">{{Auth::user()->name}}</div>
+                  <small>{{$detalles_cliente->documento_identidad_cliente}} - {{Auth::user()->email}}<br>{{$detalles_cliente->nombre_pais}} - {{$detalles_cliente->telefono_cliente}}</small>
                 </div>
         
                 <ul class="sidebar-nav">
@@ -40,7 +40,7 @@
                   </li>
         
                   <li class="sidebar-item">
-                    <a href="#layouts" class="sidebar-link ">
+                    <a href="{{ route('logoutcliente') }}" class="sidebar-link ">
                         <i class="align-middle mr-2 fas fa-door-open"></i>
                         <span class="align-middle">Salir</span>
                       </a>                    
@@ -215,58 +215,65 @@
                         <div class="card-header">
                           <h2 class="card-title">Historial de Solicitudes</h2>
                         </div>
+                        @if ($solicitudes!="")
                         <table class="table table-bordered">
-                          <thead>
-                            <tr>
-                              <th style="width:40%;">Name</th>
-                              <th style="width:25%">Phone Number</th>
-                              <th class="d-none d-md-table-cell" style="width:25%">Date of Birth</th>
-                              <th>Actions</th>
-                            </tr>
-                          </thead>
-                          <tbody>
-                            <tr>
-                              <td>Michelle Bilodeau</td>
-                              <td>864-348-0485</td>
-                              <td class="d-none d-md-table-cell">June 21, 1961</td>
-                              <td class="table-action">
-                                  <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Alexander Groves</td>
-                              <td>914-939-2458</td>
-                              <td class="d-none d-md-table-cell">May 15, 1948</td>
-                              <td class="table-action">
-                                  <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Kathie Burton</td>
-                              <td>704-993-5435</td>
-                              <td class="d-none d-md-table-cell">September 14, 1965</td>
-                              <td class="table-action">
-                                  <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Daisy Seger</td>
-                              <td>765-382-8195</td>
-                              <td class="d-none d-md-table-cell">April 2, 1971</td>
-                              <td class="table-action">
-                                  <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                              </td>
-                            </tr>
-                            <tr>
-                              <td>Amanda Jones</td>
-                              <td>202-672-1407</td>
-                              <td class="d-none d-md-table-cell">October 12, 1966</td>
-                              <td class="table-action">
-                                  <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                              </td>
-                            </tr>
-                          </tbody>
-                        </table>
+                            <thead>
+                              <tr>
+                                <th style="width:40%;">Name</th>
+                                <th style="width:25%">Phone Number</th>
+                                <th class="d-none d-md-table-cell" style="width:25%">Date of Birth</th>
+                                <th>Actions</th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              <tr>
+                                <td>Michelle Bilodeau</td>
+                                <td>864-348-0485</td>
+                                <td class="d-none d-md-table-cell">June 21, 1961</td>
+                                <td class="table-action">
+                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Alexander Groves</td>
+                                <td>914-939-2458</td>
+                                <td class="d-none d-md-table-cell">May 15, 1948</td>
+                                <td class="table-action">
+                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Kathie Burton</td>
+                                <td>704-993-5435</td>
+                                <td class="d-none d-md-table-cell">September 14, 1965</td>
+                                <td class="table-action">
+                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Daisy Seger</td>
+                                <td>765-382-8195</td>
+                                <td class="d-none d-md-table-cell">April 2, 1971</td>
+                                <td class="table-action">
+                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
+                                </td>
+                              </tr>
+                              <tr>
+                                <td>Amanda Jones</td>
+                                <td>202-672-1407</td>
+                                <td class="d-none d-md-table-cell">October 12, 1966</td>
+                                <td class="table-action">
+                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
+                                </td>
+                              </tr>
+                            </tbody>
+                          </table>
+                        @else     
+                        <div class="card-header">
+                            <h3 class="card-title">Usted No Posee Solicitudes</h3>
+                          </div>             
+                        @endif
+                        
                       </div>
                     </div>
         
