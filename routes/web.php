@@ -32,11 +32,10 @@ Route::post('catalogo/buscar', 'Frontend\homeController@catalogo')->name('catalo
 
 
 Route::get('sesion', 'Frontend\homeController@sesion')->name('sesion');
-Route::get('registro', 'Frontend\homeController@registro')->name('registro');
 Route::get('usuario', 'Frontend\homeController@usuario')->name('usuario');
 Route::get('solicitar', 'Frontend\homeController@solicitar')->name('solicitar');
 Route::get('recuperar', 'Frontend\homeController@recuperar')->name('recuperar');
-Route::get('contraseña', 'Frontend\homeController@contraseña')->name('contraseña');
+Route::get('contrasena', 'Frontend\homeController@contrasena')->name('contrasena');
 
 //---------------------------------------------------------------------
 
@@ -50,6 +49,12 @@ Route::post('send_mail', 'Ajax\AjaxMail@contactoController')->name('send_mail');
 ////
 
 
+//Sesiones de los clientes
+//Formulario para registrar los clientes
+Route::get('registro', 'Frontend\DetallesClientesController@create')->name('registro');
+///registrar cliente
+Route::post('registro', ['as' => 'registrarcliente', 'uses'=>'Frontend\DetallesClientesController@store']);
+Route::get('e', ['as' => 'logoutcliente', 'uses'=>'Auth\LoginController@logout']);
 
 
 

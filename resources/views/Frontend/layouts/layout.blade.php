@@ -1,5 +1,5 @@
 
-<html lang="en">
+<html lang="{{ app()->getLocale() }}">
 <head>
     <title>@isset ($title) {{ $title }} @endisset</title>
     <!-- Search Engine -->
@@ -70,7 +70,14 @@
                                 <li class="main_nav_item {{ Request::is('/') ? 'active' : '' }}"><a href="{{route('/')}}">Inicio</a></li>
                                 <li class="main_nav_item {{ Request::is('ofertas*') ? 'active' : '' }}"><a href="{{route('ofertas')}}">Ofertas</a></li>
                                 <li class="main_nav_item {{ Request::is('catalogo*') ? 'active' : '' }}"><a href="{{route('catalogo')}}">Catálogo</a></li>
-                                 <li class="main_nav_item {{ Request::is('sesion*') ? 'active' : '' }}"><a href="{{route('sesion')}}">Ingresa</a></li>
+                                @if(Auth::user())
+                                @if (Auth::user()->hasRole('client'))
+                                    
+                                @endif
+                                <li class="main_nav_item {{ Request::is('sesion*') ? 'active' : '' }}"><a href="{{route('usuario')}}">{{Auth::user()->name}}</a></li>
+                                @else
+                                <li class="main_nav_item {{ Request::is('sesion*') ? 'active' : '' }}"><a href="{{route('sesion')}}">Ingresa</a></li>
+                                @endif
                             </ul>
                         </nav>
 

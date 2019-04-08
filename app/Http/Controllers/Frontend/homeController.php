@@ -4,6 +4,9 @@ namespace App\Http\Controllers\Frontend;
 
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Auth;
+use App\DetallesClientes as DetallesClientes;
 use App\Slider;
 use App\Comentarios;
 use App\Categorias;
@@ -72,15 +75,25 @@ class homeController extends Controller
     }
 
     public function sesion(){
+        
         return view('Frontend.sesion');
     }
 
-    public function registro(){
-        return view('Frontend.registro');
-    }
-
     public function usuario(){
-        return view('Frontend.usuario');
+        // dd(Auth::user());
+        if(Auth::user() && Auth::user()->hasRole('client')){
+            $detalles_cliente=DetallesClientes::join('role_user', 'role_user.id', '=', 'detalles_clientes.role_user_id')
+                            ->join('paises', 'paises.id', '=', 'detalles_clientes.pais_id')
+                            ->where('user_id',Auth::user()->id)
+                            ->first();
+            // dd($detalles_cliente);
+            $solicitudes="";
+            return view('Frontend.usuario', ['detalles_cliente'=>$detalles_cliente,'solicitudes'=>$solicitudes]);
+        }
+        else{
+            return redirect()->route("/");
+        }
+        
     }
 
     public function solicitar(){
@@ -91,7 +104,7 @@ class homeController extends Controller
         return view('Frontend.recuperar');
     }
 
-    public function contraseña(){
+    public function contrasena(){
         return view('Frontend.contrasena');
     }
 }

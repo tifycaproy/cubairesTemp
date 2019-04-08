@@ -14,15 +14,25 @@
                            
                             <div class="last_title text-center ">Ingresa tu e-mail y contraseña por favor</div><br>
                                                         
-                            <form action="#" id="contact_form" class="clearfix">
-                                <input id="contact_input_email" class="contact_input contact_input_email" type="text" placeholder="E-mail" required="required" data-error="E-mail is required.">
-                                <input id="contact_input_subject" class="contact_input contact_input_subject" type="text" placeholder="Contraseña">
-                            </form>
-                            
+                            <form action="{{ route('login') }}" id="contact_form" class="clearfix" method="POST" enctype="multipart/form-data">
+                                {{ csrf_field() }}   
+                                <input id="contact_input_email" autofocus class="contact_input contact_input_email" name="email" type="text" placeholder="E-mail" required="required" data-error="E-mail is required.">
+                                @if ($errors->has('email'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('email') }}</strong>
+                                    </span>
+                                @endif
+                                <input id="contact_input_subject" class="contact_input contact_input_subject" name="password" type="password" placeholder="Contraseña">
+                                @if ($errors->has('password'))
+                                    <span class="help-block">
+                                        <strong>{{ $errors->first('password') }}</strong>
+                                    </span>
+                                @endif
 
-                            <div class="button last_button">
-                            <a href="{{route('usuario')}}">Ingresar</a>
+                            <div>
+                                    <input class="button last_button" type="submit" value="Ingresar">
                             </div>
+                        </form>
                             
                                 <br><br>
                                 <div >¿Olvidaste tu contraseña? <a style="color:white;" href="{{route('recuperar')}}"><b>Recupérala aquí</b></a></div>

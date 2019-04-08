@@ -16,5 +16,6 @@ class DatabaseSeeder extends Seeder
        // Los usuarios necesitarán los roles previamente generados
         $this->call(UserTableSeeder::class);
         $this->call(ConfiguracionesSeeder::class);
+        $this->call(PaisesSeeder::class);
     }
 }
