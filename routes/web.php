@@ -213,6 +213,8 @@ Route::group(['middleware' => 'auth'], function()
 
   //********************** TRAMITES ****************************************
   //Listar registros de Tramites
+  Route::post('solicitudes/{servicio}', ['as' => 'ingresarsolicitud', 'uses'=>'Backend\SolicitudesController@store']);  
+
   Route::get('/admin/tramites', ['as' => 'vertramites', 'uses'=>'Backend\SolicitudController@store']);  
   //Buscar Tramite ya registrado
   Route::get('/admin/tramites/{id_servicio}/{id_solicitante}', ['as' => 'buscartramite', 'uses'=>'Backend\SolicitudController@edit']);

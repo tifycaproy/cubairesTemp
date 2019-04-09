@@ -28,6 +28,8 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
+                                <input id="contact_input_email" autofocus class="contact_input contact_input_email" value="{{$lugar}}" name="lugar" type="password" hidden data-error="E-mail is required.">
+                                <input id="contact_input_email" autofocus class="contact_input contact_input_email" value="{{$paquete}}" name="servicio" type="password" hidden data-error="E-mail is required.">
 
                             <div>
                                     <input class="button last_button" type="submit" value="Ingresar">
