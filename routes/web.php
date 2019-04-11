@@ -215,11 +215,13 @@ Route::group(['middleware' => 'auth'], function()
   //Listar registros de Tramites
   Route::post('solicitudes/{servicio}', ['as' => 'ingresarsolicitud', 'uses'=>'Backend\SolicitudesController@store']);  
 
-  Route::get('/admin/tramites', ['as' => 'vertramites', 'uses'=>'Backend\SolicitudController@store']);  
+  Route::get('/admin/tramites', ['as' => 'vertramites', 'uses'=>'Backend\SolicitudesController@index']);  
   //Buscar Tramite ya registrado
-  Route::get('/admin/tramites/{id_servicio}/{id_solicitante}', ['as' => 'buscartramite', 'uses'=>'Backend\SolicitudController@edit']);
+  Route::get('/admin/tramites/{solicitudes}', ['as' => 'buscartramite', 'uses'=>'Backend\SolicitudesController@edit']);
   //Actualizar estatus de Tramite ya registrado
-  Route::post('/admin/tramites/{id_servicio}/{id_solicitante}', ['as' => 'actualizartramite', 'uses'=>'Backend\SolicitudController@update']);  
+  Route::post('/admin/tramites/u{solicitudes}/{estatus_solicitud}', ['as' => 'actualizartramite', 'uses'=>'Backend\SolicitudesController@update']);  
+
+  Route::get('/admin/tramites/r{solicitudes}', ['as' => 'rechazarsolicitud', 'uses'=>'Backend\SolicitudesController@destroy']);  
   //********************** FIN TRAMITES ****************************************
 
   

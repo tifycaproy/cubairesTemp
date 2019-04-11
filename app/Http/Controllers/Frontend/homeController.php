@@ -91,7 +91,12 @@ class homeController extends Controller
                             ->where('users.id',Auth::user()->id)
                             ->first();
             // dd($detalles_cliente);
-            $solicitudes=Solicitudes::join('servicios', 'servicios.id', '=', 'solicitudes.servicio_id')
+            $solicitudes=Solicitudes::select(DB::raw('solicitudes.id,titulo_servicio, fecha_desde, fecha_hasta, numero_nino, numero_adulto, solicitudes.created_at, case  
+            when estatus_solicitud LIKE 0 then "Pendiente por Confirmación" 
+            when estatus_solicitud LIKE 1 then "new"
+            when estatus_solicitud LIKE 2 then "pack"
+         end as estatus_solicitud'))
+                            ->join('servicios', 'servicios.id', '=', 'solicitudes.servicio_id')
                             ->where('detalle_cliente_id',$detalles_cliente->id)
                             ->orderBy('solicitudes.created_at')
                             ->get();

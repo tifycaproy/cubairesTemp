@@ -1,7 +1,9 @@
 @extends ('Frontend.layouts.layout')
 
 @section('contenido')
-
+@php
+  use Carbon\Carbon;
+@endphp
 
 
     <!-- Home -->
@@ -219,12 +221,12 @@
                         <table class="table table-bordered">
                             <thead>
                                 <tr>
-                                  <th style="width:40%;">Paquete</th>
-                                  <th style="width:25%">Fecha Desde</th>
-                                  <th class="d-none d-md-table-cell" style="width:25%">Fecha Hasta</th>
-                                  <th class="d-none d-md-table-cell" style="width:25%">N° niño</th>
-                                  <th class="d-none d-md-table-cell" style="width:25%">N° adulto</th>
-                                  <th class="d-none d-md-table-cell" style="width:25%">Fecha Solicitud</th>
+                                  <th>Paquete</th>
+                                  <th>Desde / Hasta</th>
+                                  <th class="d-none d-md-table-cell">N° niño</th>
+                                  <th class="d-none d-md-table-cell">N° adulto</th>
+                                  <th class="d-none d-md-table-cell">Fecha Solicitud</th>
+                                  <th class="d-none d-md-table-cell">Estatus</th>
                                   <th>Acción</th>
                                 </tr>
                               </thead>
@@ -232,11 +234,11 @@
                         @foreach ($solicitudes as $solicitud)
                         <tr>
                         <td>{{$solicitud->titulo_servicio}}</td>
-                            <td>{{$solicitud->fecha_desde}}</td>
-                            <td class="d-none d-md-table-cell">{{$solicitud->fecha_hasta}}</td>
+                            <td>{{Carbon::parse($solicitud->fecha_desde)->format('d-m-Y')}} / {{Carbon::parse($solicitud->fecha_hasta)->format('d-m-Y')}}</td>
                             <td class="d-none d-md-table-cell">{{$solicitud->numero_nino}}</td>
                             <td class="d-none d-md-table-cell">{{$solicitud->numero_adulto}}</td>
-                            <td class="d-none d-md-table-cell">{{$solicitud->created_at}}</td>
+                            <td class="d-none d-md-table-cell">{{Carbon::parse($solicitud->created_at)->format('d-m-Y')}}</td>
+                            <td class="d-none d-md-table-cell">{{$solicitud->estatus_solicitud}}</td>
                             <td class="table-action">
                                 <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
                             </td>

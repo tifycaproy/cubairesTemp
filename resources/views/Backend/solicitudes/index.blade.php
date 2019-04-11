@@ -6,84 +6,144 @@
 @endphp
 
 <div class="col-md-12">
-              <div class="card">
-                <div class="card-header card-header-primary">
-                  <h3 class="card-title "><b>Solicitudes de Reservas </b></h3>
-
-{{-- 
-                  <a href="{{ route('servicios.create')}}" class="card-category pl-2">
-                    <i class="fas fa-plus-circle"></i> Agregar Servicio
-                  </a> --}}
-
-                  <!-- <p class="card-category"> Here is a subtitle for this table</p> -->
-                </div>
-                <div class="card-body">
-                  <div class="table-responsive">
-                    <input id="mostra_vista" value="servicios" hidden disabled>
-                    <table class="table">
-                      <thead class=" text-primary">
-                        <tr>
-                          <th>ID</th>
-                          <th>Nombre</th>
-                          <th>Email</th>
-                          <th>Pais</th>
-                          <th>Reserva</th>
-                          <th>Adultos</th>
-                          <th>Niños</th>
-                          <th>Tour</th>
-                        </tr>
-                      </thead>
-                      <tbody>
-
-                        @foreach($solicitudes as $solicitud)
-                        <tr>
-                          <td>
-                              {{ $solicitud->id }}
-                          </td>
-                          <td>
-                              {{ $solicitud->nombre }}
-                          </td>
-                          <td>
-                              {{ $solicitud->email }}
-                          </td>
-                          <td>
-                              {{ $solicitud->pais }}
-                          </td>
-                          <td>
-                            {{ Carbon::parse($solicitud->desde)->format('d-m-Y') }} AL {{ Carbon::parse($solicitud->hasta)->format('d-m-Y') }}
-                          </td>
-                          <td>
-                             {{ $solicitud->adultos }}
-                          </td>
-                          <td>
-                             {{ $solicitud->ninos }}
-                          </td>
-                          <td>
-                             {{ $solicitud->tour }}
-                          </td>
-                          
-                          {{-- <td class="td-actions">
-                            <div class="btn-group">
-                            <a href="{{ route('servicios.edit',$solicitud->id) }}" title="Editar" class="p-2 btn btn-primary">
-                              <i class="fas fa-pencil-alt"></i>
-                            </a>
-                            <a href="{{ route('servicios.destroy',$solicitud->id) }}" title="Eliminar" class="p-2  btn btn-primary">
-                              <i class="fas fa-times"></i>
-                            </a>
-                            </div>
-                           
-                          </td> --}}
-                        </tr>
-                        @endforeach
-                      </tbody>
-                    </table>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-
-
+  <div class="card">
+    <div class="card-header card-header-tabs card-header-primary">
+      <div class="nav-tabs-navigation">
+        <div class="nav-tabs-wrapper">
+          <span class="nav-tabs-title">Solicitudes:</span>
+          <ul class="nav nav-tabs" data-tabs="tabs">
+            <li class="nav-item">
+            <a class="nav-link {{$vista_porconfirmar}}" href="#porconfirmar" data-toggle="tab">
+                <i class="material-icons">bug_report</i> Por Confirmar
+                <div class="ripple-container"></div>
+              </a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link {{$vista_confirmado}}" href="#confirmado" data-toggle="tab">
+                <i class="material-icons">code</i> Confirmados
+                <div class="ripple-container"></div>
+              </a>
+            </li>            
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="tab-content">
+        <div class="tab-pane {{$vista_porconfirmar}}" id="porconfirmar">
+          <table class="table">
+              @if (count($porconfirmar)>0)
+              <thead class=" text-primary">
+                  <tr>
+                      <th></th>
+                      <th>
+                    Solicitante
+                  </th>
+                  <th>
+                    Paquete
+                  </th>
+                  <th>
+                    Fecha Solicitud
+                  </th>
+                  <th>
+                    Acciones
+                  </th>
+                </tr></thead>
+            <tbody>
+              @foreach ($porconfirmar as $item)
+              <tr>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">                        
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </td>
+                <td>{{$item["name"]}}</td>
+                <td>{{$item["titulo_servicio"]}}</td>
+                <td>{{Carbon::parse($item["created_at"])->format('d-m-Y')}}</td>
+                  <td class="td-actions text-right">
+                    {{-- <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Modificar">
+                      <i class="material-icons">edit</i>
+                    </button> --}}
+                    <button type="button" rel="tooltip" title="" onclick="location.href='{{ route('actualizartramite',['solicitudes'=>$item['solicitud_id'],'estatus_solicitud'=>2])}}'" class="btn btn-white btn-link btn-sm" data-original-title="Eliminar">
+                      <i class="material-icons">close</i>
+                    </button>
+                  </td>
+                </tr>
+              @endforeach
+              @else
+              <thead class=" text-primary">
+                  <tr>
+                      <th>No Posee Solicitudes Por Confirmar</th>                      
+                </tr></thead>
+              @endif
+            </tbody>
+          </table>
+        </div>
+        <div class="tab-pane {{$vista_confirmado}}" id="confirmado">
+          <table class="table">
+            <tbody>
+              @if (count($confirmados)>0)
+              <thead class=" text-primary">
+                  <tr>
+                      <th></th>
+                      <th>
+                    Solicitante
+                  </th>
+                  <th>
+                    Paquete
+                  </th>
+                  <th>
+                    Fecha Solicitud
+                  </th>
+                  <th>
+                    Acciones
+                  </th>
+                </tr></thead>
+            <tbody>
+              @foreach ($confirmados as $item)
+              <tr>
+                  <td>
+                    <div class="form-check">
+                      <label class="form-check-label">                        
+                        <input class="form-check-input" type="checkbox" value="">
+                        <span class="form-check-sign">
+                          <span class="check"></span>
+                        </span>
+                      </label>
+                    </div>
+                  </td>
+                <td>{{$item["name"]}}</td>
+                <td>{{$item["titulo_servicio"]}}</td>
+                <td>{{Carbon::parse($item["created_at"])->format('d-m-Y')}}</td>
+                  <td class="td-actions text-right">
+                    {{-- <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Modificar">
+                      <i class="material-icons">edit</i>
+                    </button> --}}
+                    <button type="button" rel="tooltip" title="" class="btn btn-white btn-link btn-sm" data-original-title="Eliminar">
+                      <i class="material-icons">close</i>
+                    </button>
+                  </td>
+                </tr>
+              @endforeach
+              @else
+              <thead class=" text-primary">
+                  <tr>
+                      <th>No Posee Solicitudes Confirmadas</th>                      
+                </tr></thead>
+              @endif
+            </tbody>
+          </table>
+        </div>
+        
+      </div>
+    </div>
+  </div>
+</div>
 @endsection
 
 @push('scripts')

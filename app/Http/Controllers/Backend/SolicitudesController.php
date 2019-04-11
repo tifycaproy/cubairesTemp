@@ -19,16 +19,49 @@ class SolicitudesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-
-        $solicitudes = Solicitudes::join('paises', 'solicitudes.pais','=','paises.iso')
-                                    ->join('tours','solicitudes.id_tour', '=', 'tours.id')
-                                    ->select('solicitudes.*','tours.nombre as tour', 'paises.nombre as pais')
-                                    ->get();
-                                    //dd($solicitudes);
-
-        return view ('Backend.solicitudes.index', compact('solicitudes'));
+        
+        $vista_porconfirmar=NULL;
+        $vista_confirmado=NULL;
+        if($request->redireccion==NULL){
+            $vista_porconfirmar="active";
+        }
+        else{
+            $vista_confirmado="active";
+        }
+        $solicitudes= Solicitudes::select(DB::raw('solicitudes.id,titulo_servicio, solicitudes.created_at, estatus_solicitud, name'))
+                    ->join('servicios', 'servicios.id', '=', 'solicitudes.servicio_id')
+                    ->join('detalles_clientes', 'detalles_clientes.id', '=', 'solicitudes.detalle_cliente_id')
+                    ->join('role_user', 'role_user.id', '=', 'detalles_clientes.role_user_id')
+                    ->join('users', 'users.id', '=', 'role_user.user_id')
+                    ->get();
+        $porconfirmar=array();
+        $confirmados=array();
+        // dd($solicitudes);
+        foreach ($solicitudes as $key => $value) {
+            
+            switch ($value["estatus_solicitud"]) {
+                case 1:
+                $confirmados[$key]["solicitud_id"]=$value["id"];
+                $confirmados[$key]["name"]=$value["name"];
+                $confirmados[$key]["titulo_servicio"]=$value["titulo_servicio"];
+                $confirmados[$key]["created_at"]=$value["created_at"];
+                $confirmados[$key]["estatus_solicitud"]=$value["estatus_solicitud"];
+                    break;
+                    case 0:
+                    $porconfirmar[$key]["solicitud_id"]=$value["id"];
+                    $porconfirmar[$key]["name"]=$value["name"];
+                    $porconfirmar[$key]["titulo_servicio"]=$value["titulo_servicio"];
+                    $porconfirmar[$key]["created_at"]=$value["created_at"];
+                    $porconfirmar[$key]["estatus_solicitud"]=$value["estatus_solicitud"];
+                    break;
+                default:
+                   
+                    break;
+            }
+        }    
+        return view('Backend.solicitudes.index',['porconfirmar'=>$porconfirmar,'confirmados'=>$confirmados,'vista_porconfirmar'=>$vista_porconfirmar,'vista_confirmado'=>$vista_confirmado]);     
     }
 
     /**
@@ -61,6 +94,7 @@ class SolicitudesController extends Controller
             
             $solicitud = new Solicitudes;
             $solicitud->fill($request->input());
+            $solicitud->estatus_solicitud = 0;
             $solicitud->detalle_cliente_id = $detalles_cliente->id;
             $solicitud->servicio_id = $request->servicio_id;
             $solicitud->save();
@@ -71,131 +105,63 @@ class SolicitudesController extends Controller
             
         }
         else{
-            return redirect()->route("/");
+            if(Auth::user()){
+                return redirect()->route("vertr");
+            }
+            else{
+                return redirect()->route("/");
+            }
         }
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Solicitud  $solicitud
+     * @param  \App\Solicitudes  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function show(Solicitud $solicitud)
+    public function show(Solicitudes $solicitudes)
     {
+
         
     }
 
     /**
      * Show the form for editing the specified resource.
      *@param  \Illuminate\Http\Request  $request
-     * @param  \App\Solicitud  $solicitud
+     * @param  \App\Solicitudes  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function edit($id_servicio,$id_solicitante)
-    {
-        
-        $solicitante= Solicitantes::where('id_solicitante', $id_solicitante)->get();
-        $tramite= Solicitud::where('id_servicio', $id_servicio)->where('id_solicitante', $id_solicitante)->get();
-        $servicio = Servicios::join('formatos', 'formatos.servicio_id', '=', 'servicios.id')
-        ->where('servicios.id', $id_servicio)
-        ->get();
-        
-        foreach ($servicio as $key => $value) {
-            if($value->seccion_id==3){
-                $secciones_campos= SeccionesCampos::join('secciones', 'secciones.id', '=', 'secciones_campos.seccion_id')
-                                                    ->join('campos', 'campos.id', '=', 'secciones_campos.campo_id')
-                                                    ->join('tipos_campos', 'tipos_campos.id', '=', 'campos.tipo_campo_id')
-                                                    ->where('seccion_id',$value->seccion_id)->get();
-                foreach ($secciones_campos as $key3 => $value3) {    
-                    foreach ($solicitante as $key2 => $value2) {
-                        if($value2->id_campo==$value3->campo_id){
-                            $formato_ver[$key][$key3]["id_solicitante"]=$id_solicitante;
-                            $formato_ver[$key][$key3]["nombre_servicio"]=$value->titulo_servicio;
-                            $formato_ver[$key][$key3]["id_servicio"]=$value->id;
-                            $formato_ver[$key][$key3]["nombre_seccion"]=$value3->nombre_seccion;
-                            $formato_ver[$key][$key3]["id_seccion"]=$value->seccion_id;
-                            $formato_ver[$key][$key3]["nombre_campo"]=$value3->nombre_campo;
-                            $formato_ver[$key][$key3]["id_campo"]=$value3->campo_id;
-                            $formato_ver[$key][$key3]["tipo_campo"]=$value3->name;                            
-                            $formato_ver[$key][$key3]["valor"]=$value2->valor;
-                            $formato_ver[$key][$key3]["status"]="";
-                        }
-                    }
-                }
-            }
-            else{
-                $secciones_campos= SeccionesCampos::join('secciones', 'secciones.id', '=', 'secciones_campos.seccion_id')
-                                                    ->join('campos', 'campos.id', '=', 'secciones_campos.campo_id')
-                                                    ->join('tipos_campos', 'tipos_campos.id', '=', 'campos.tipo_campo_id')
-                                                    ->where('seccion_id',$value->seccion_id)->get();
-                foreach ($secciones_campos as $key3 => $value3) {                  
-                    foreach ($tramite as $key2 => $value2) {
-                        if($value2->id_campo==$value3->campo_id){                            
-                            $formato_ver[$key][$key3]["id_solicitante"]=$id_solicitante;
-                            $formato_ver[$key][$key3]["nombre_servicio"]=$value->titulo_servicio;
-                            $formato_ver[$key][$key3]["id_servicio"]=$value->id;
-                            $formato_ver[$key][$key3]["nombre_seccion"]=$value3->nombre_seccion;
-                            $formato_ver[$key][$key3]["id_seccion"]=$value->seccion_id;
-                            $formato_ver[$key][$key3]["nombre_campo"]=$value3->nombre_campo;
-                            $formato_ver[$key][$key3]["id_campo"]=$value3->campo_id; 
-                            $formato_ver[$key][$key3]["tipo_campo"]=$value3->name;                          
-                            $formato_ver[$key][$key3]["valor"]=$value2->valor;
-                            $formato_ver[$key][$key3]["status"]=$value2->status;
-                        }
-                    }
-                }
-            }           
-        }      
-        $status = collect([
-            ['status' => 1, 'name' => 'En Proceso'],
-            ['status' => 2, 'name' => 'Finalizada'],
-            ['status' => 3, 'name' => 'Rechazada'],
-        ]);  
-        if ($formato_ver[1][0]["status"]==1) {
-            $status = collect([                
-                ['status' => 2, 'name' => 'Finalizada'],
-                ['status' => 3, 'name' => 'Rechazada'],
-            ]);
-        }
-        
-        $status_select = $status->pluck('name','status');           
-        return view('Backend.form.formtramite',['formato_ver'=>$formato_ver,'status'=>$status_select]);     
+    public function edit(Solicitudes $solicitudes)
+    {   
+
+        return view('Backend.form.formtramite');     
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Solicitud  $solicitud
+     * @param  \App\Solicitudes  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function update($id_servicio,$id_solicitante,Request $request)
-    {
-        $tramite = Solicitud::where('id_servicio', $id_servicio)
-                ->where('id_solicitante', $id_solicitante)
-                ->get();
-        if (!$tramite){
-        return view('Backend.index');
-        }
-        else{
-
-          $tramite = Solicitud::where('id_servicio', $id_servicio)
-                        ->where('id_solicitante', $id_solicitante)          
-                        ->update(['status'=>$request->status]);
-          ;
-        return redirect()->route("vertramites");
-     }
+    public function update($solicitudes,$estatus_solicitud)
+    {         
+        // dd();
+        Solicitudes::where('id', $solicitudes)
+                    ->update(['estatus_solicitud'=>$estatus_solicitud]);
+        $request->redireccion = $estatus_solicitud;
+        return redirect()->route("vertramites",['request'=>$request]);
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  \App\Solicitud  $solicitud
+     * @param  \App\Solicitudes  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Solicitud $solicitud)
+    public function destroy(Solicitudes $solicitudes)
     {
-        //
+
     }
 }
