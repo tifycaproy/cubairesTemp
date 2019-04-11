@@ -4,7 +4,7 @@
 @php
   use Carbon\Carbon;
 @endphp
-
+<input id="mostra_vista" value="tramites" hidden disabled>
 <div class="col-md-12">
   <div class="card">
     <div class="card-header card-header-tabs card-header-primary">
@@ -69,6 +69,9 @@
                 <td>{{$item["numero_adulto"]}} / {{$item["numero_nino"]}}</td>
                 <td>{{Carbon::parse($item["created_at"])->format('d-m-Y')}}</td>
                   <td class="td-actions text-right">
+                      <button type="button" rel="tooltip" title="" onclick="location.href='{{ route('respondersolicitud',['solicitudes'=>$item['solicitud_id']])}}'" class="btn btn-white btn-link btn-sm" data-original-title="Responder con Email">
+                          <i class="material-icons">email</i>
+                        </button>
                     <button type="button" rel="tooltip" title="" onclick="location.href='{{ route('actualizarsolicitud',['solicitudes'=>$item['solicitud_id'],'estatus_solicitud'=>1])}}'" class="btn btn-white btn-link btn-sm" data-original-title="Confirmar">
                       <i class="material-icons">done</i>
                     </button>

@@ -7,10 +7,14 @@ use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
 use App\DetallesClientes as DetallesClientes;
 use App\Solicitudes as Solicitudes;
 use App\Paises;
 use App\User;
+use App\Configuraciones;
+use App\Mail\Notificacion;
+use App\Mail\Respuestas;
 
 class SolicitudesController extends Controller
 {
@@ -101,9 +105,33 @@ class SolicitudesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create($solicitudes)
     {
-        //
+        $solicitud=  Solicitudes::select(DB::raw('solicitudes.id as solicitud_id, email, titulo_servicio, numero_adulto, numero_nino, fecha_desde, fecha_hasta, observacion, solicitudes.created_at, estatus_solicitud, name'))
+                    ->join('servicios', 'servicios.id', '=', 'solicitudes.servicio_id')
+                    ->join('detalles_clientes', 'detalles_clientes.id', '=', 'solicitudes.detalle_cliente_id')
+                    ->join('role_user', 'role_user.id', '=', 'detalles_clientes.role_user_id')
+                    ->join('users', 'users.id', '=', 'role_user.user_id')
+                    ->where('solicitudes.id',$solicitudes)
+                    ->first();         
+                    // dd($solicitud);
+                    return view('Backend.solicitudes.create',['solicitud'=>$solicitud]);                         
+            
+            // Mail::to($solicitud->email)->send(new Notificacion($solicitud));
+    }
+
+    public function send(Request $request,$solicitud)
+    {       
+        
+        $solicitud=  Solicitudes::select(DB::raw('solicitudes.id, email, titulo_servicio, numero_adulto, numero_nino, fecha_desde, fecha_hasta, observacion, solicitudes.created_at, estatus_solicitud, name'))
+                ->join('servicios', 'servicios.id', '=', 'solicitudes.servicio_id')
+                ->join('detalles_clientes', 'detalles_clientes.id', '=', 'solicitudes.detalle_cliente_id')
+                ->join('role_user', 'role_user.id', '=', 'detalles_clientes.role_user_id')
+                ->join('users', 'users.id', '=', 'role_user.user_id')
+                ->where('solicitudes.id',$solicitud)
+                ->first();
+
+            Mail::to($solicitud->email)->send(new Respuestas($request));
     }
 
     /**
@@ -115,7 +143,7 @@ class SolicitudesController extends Controller
     public function store(Request $request)
     {
         // dd($request);
-
+        // return view('Frontend.Mail.mail');
         if(Auth::user() && Auth::user()->hasRole('client')){
             
             $detalles_cliente=User::join('role_user', 'role_user.user_id', '=', 'users.id')
@@ -130,8 +158,10 @@ class SolicitudesController extends Controller
             $solicitud->detalle_cliente_id = $detalles_cliente->id;
             $solicitud->servicio_id = $request->servicio_id;
             $solicitud->save();
-
             
+            $config = Configuraciones::get();
+            $correo = User::where('id',Auth::user()->id)->pluck('email');
+            Mail::to($correo)->send(new Notificacion($config));
 
               return redirect()->route("usuario");
             

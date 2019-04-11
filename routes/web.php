@@ -46,6 +46,7 @@ Route::post('create_newlester', 'Ajax\AjaxNewlester@create')->name('create_newle
 ///
 /////ENVIAR MENSAJE DE CONTACTO
 Route::post('send_mail', 'Ajax\AjaxMail@contactoController')->name('send_mail');
+
 ////
 
 
@@ -222,6 +223,10 @@ Route::group(['middleware' => 'auth'], function()
   Route::get('/admin/solicitudes/u{solicitudes}/{estatus_solicitud}', ['as' => 'actualizarsolicitud', 'uses'=>'Backend\SolicitudesController@update']);  
 
   Route::get('/admin/solicitudes/r{solicitudes}', ['as' => 'rechazarsolicitud', 'uses'=>'Backend\SolicitudesController@destroy']);  
+  
+  Route::get('/admin/solicitudes/responder/{solicitudes}', ['as' => 'respondersolicitud', 'uses'=>'Backend\SolicitudesController@create']);
+
+  Route::post('/admin/solicitudes/respuesta/{solicitudes}', ['as' => 'enviarrespuesta', 'uses'=>'Backend\SolicitudesController@send']);
   //********************** FIN TRAMITES ****************************************
 
   
