@@ -8,7 +8,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 use App\DetallesClientes as DetallesClientes;
-use App\Solicitudes;
+use App\Solicitudes as Solicitudes;
 use App\Paises;
 use App\User;
 
@@ -19,18 +19,27 @@ class SolicitudesController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index($mensaje)
     {
-        
         $vista_porconfirmar=NULL;
         $vista_confirmado=NULL;
-        if($request->redireccion==NULL){
+        $vista_rechazado=NULL;
+        switch ($mensaje) {
+            case 0:
             $vista_porconfirmar="active";
-        }
-        else{
+                break;
+            case 1:
             $vista_confirmado="active";
+                break;
+            case 2:
+                $vista_rechazado="active";
+                break;
+            default:
+            
+                # code...
+                break;
         }
-        $solicitudes= Solicitudes::select(DB::raw('solicitudes.id,titulo_servicio, solicitudes.created_at, estatus_solicitud, name'))
+        $solicitudes= Solicitudes::select(DB::raw('solicitudes.id, titulo_servicio, numero_adulto, numero_nino, fecha_desde, fecha_hasta, observacion, solicitudes.created_at, estatus_solicitud, name'))
                     ->join('servicios', 'servicios.id', '=', 'solicitudes.servicio_id')
                     ->join('detalles_clientes', 'detalles_clientes.id', '=', 'solicitudes.detalle_cliente_id')
                     ->join('role_user', 'role_user.id', '=', 'detalles_clientes.role_user_id')
@@ -38,6 +47,7 @@ class SolicitudesController extends Controller
                     ->get();
         $porconfirmar=array();
         $confirmados=array();
+        $rechazados=array();
         // dd($solicitudes);
         foreach ($solicitudes as $key => $value) {
             
@@ -46,6 +56,11 @@ class SolicitudesController extends Controller
                 $confirmados[$key]["solicitud_id"]=$value["id"];
                 $confirmados[$key]["name"]=$value["name"];
                 $confirmados[$key]["titulo_servicio"]=$value["titulo_servicio"];
+                $confirmados[$key]["fecha_desde"]=$value["fecha_desde"];
+                $confirmados[$key]["fecha_hasta"]=$value["fecha_hasta"];
+                $confirmados[$key]["numero_adulto"]=$value["numero_adulto"];
+                $confirmados[$key]["numero_nino"]=$value["numero_nino"];
+                $confirmados[$key]["observacion"]=$value["observacion"];
                 $confirmados[$key]["created_at"]=$value["created_at"];
                 $confirmados[$key]["estatus_solicitud"]=$value["estatus_solicitud"];
                     break;
@@ -53,15 +68,32 @@ class SolicitudesController extends Controller
                     $porconfirmar[$key]["solicitud_id"]=$value["id"];
                     $porconfirmar[$key]["name"]=$value["name"];
                     $porconfirmar[$key]["titulo_servicio"]=$value["titulo_servicio"];
+                    $porconfirmar[$key]["fecha_desde"]=$value["fecha_desde"];
+                    $porconfirmar[$key]["fecha_hasta"]=$value["fecha_hasta"];
+                    $porconfirmar[$key]["numero_adulto"]=$value["numero_adulto"];
+                    $porconfirmar[$key]["numero_nino"]=$value["numero_nino"];
+                    $porconfirmar[$key]["observacion"]=$value["observacion"];
                     $porconfirmar[$key]["created_at"]=$value["created_at"];
                     $porconfirmar[$key]["estatus_solicitud"]=$value["estatus_solicitud"];
+                    break;
+                    case 2:
+                    $rechazados[$key]["solicitud_id"]=$value["id"];
+                    $rechazados[$key]["name"]=$value["name"];
+                    $rechazados[$key]["titulo_servicio"]=$value["titulo_servicio"];
+                    $rechazados[$key]["fecha_desde"]=$value["fecha_desde"];
+                    $rechazados[$key]["fecha_hasta"]=$value["fecha_hasta"];
+                    $rechazados[$key]["numero_adulto"]=$value["numero_adulto"];
+                    $rechazados[$key]["numero_nino"]=$value["numero_nino"];
+                    $rechazados[$key]["observacion"]=$value["observacion"];
+                    $rechazados[$key]["created_at"]=$value["created_at"];
+                    $rechazados[$key]["estatus_solicitud"]=$value["estatus_solicitud"];
                     break;
                 default:
                    
                     break;
             }
         }    
-        return view('Backend.solicitudes.index',['porconfirmar'=>$porconfirmar,'confirmados'=>$confirmados,'vista_porconfirmar'=>$vista_porconfirmar,'vista_confirmado'=>$vista_confirmado]);     
+        return view('Backend.solicitudes.index',['porconfirmar'=>$porconfirmar,'confirmados'=>$confirmados,'vista_porconfirmar'=>$vista_porconfirmar,'vista_confirmado'=>$vista_confirmado,'vista_rechazado'=>$vista_rechazado,'rechazados'=>$rechazados]);     
     }
 
     /**
@@ -106,7 +138,7 @@ class SolicitudesController extends Controller
         }
         else{
             if(Auth::user()){
-                return redirect()->route("vertr");
+                return redirect()->route("versolicitudes");
             }
             else{
                 return redirect()->route("/");
@@ -147,11 +179,12 @@ class SolicitudesController extends Controller
      */
     public function update($solicitudes,$estatus_solicitud)
     {         
-        // dd();
+        // dd($estatus_solicitud);
         Solicitudes::where('id', $solicitudes)
                     ->update(['estatus_solicitud'=>$estatus_solicitud]);
-        $request->redireccion = $estatus_solicitud;
-        return redirect()->route("vertramites",['request'=>$request]);
+        $estatus_solicitud;
+
+        return redirect()->route("versolicitudes",['mensaje'=>$estatus_solicitud]);
     }
 
     /**

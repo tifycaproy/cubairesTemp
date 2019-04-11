@@ -77,7 +77,7 @@ Route::resource('sliders','Backend\SliderController');
 Route::resource('noticias','Backend\NoticiasController');
 Route::resource('usuarios','Auth\RegisterController');
 Route::resource('newsletter','Backend\NewsletterController');
-Route::resource('solicitud','Backend\SolicitudController');
+Route::resource('solicitudes','Backend\SolicitudesController');
 Route::resource('categorias','Backend\CategoriasController');
 Route::resource('preguntas','Backend\PreguntasController');
 
@@ -215,13 +215,13 @@ Route::group(['middleware' => 'auth'], function()
   //Listar registros de Tramites
   Route::post('solicitudes/{servicio}', ['as' => 'ingresarsolicitud', 'uses'=>'Backend\SolicitudesController@store']);  
 
-  Route::get('/admin/tramites', ['as' => 'vertramites', 'uses'=>'Backend\SolicitudesController@index']);  
+  Route::get('/admin/solicitudes{mensaje}', ['as' => 'versolicitudes', 'uses'=>'Backend\SolicitudesController@index']);  
   //Buscar Tramite ya registrado
-  Route::get('/admin/tramites/{solicitudes}', ['as' => 'buscartramite', 'uses'=>'Backend\SolicitudesController@edit']);
+  Route::get('/admin/solicitudes/{solicitudes}', ['as' => 'buscartramite', 'uses'=>'Backend\SolicitudesController@edit']);
   //Actualizar estatus de Tramite ya registrado
-  Route::post('/admin/tramites/u{solicitudes}/{estatus_solicitud}', ['as' => 'actualizartramite', 'uses'=>'Backend\SolicitudesController@update']);  
+  Route::get('/admin/solicitudes/u{solicitudes}/{estatus_solicitud}', ['as' => 'actualizarsolicitud', 'uses'=>'Backend\SolicitudesController@update']);  
 
-  Route::get('/admin/tramites/r{solicitudes}', ['as' => 'rechazarsolicitud', 'uses'=>'Backend\SolicitudesController@destroy']);  
+  Route::get('/admin/solicitudes/r{solicitudes}', ['as' => 'rechazarsolicitud', 'uses'=>'Backend\SolicitudesController@destroy']);  
   //********************** FIN TRAMITES ****************************************
 
   

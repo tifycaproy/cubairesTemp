@@ -37,7 +37,7 @@
       </a>
     </li> --}}
     <li id="tramites" class="nav-item">
-      <a class="nav-link disabled" href="{{ route('vertramites')}}">
+      <a class="nav-link disabled" href="{{ route('versolicitudes',['mensaje'=>0])}}">
         <i class="material-icons">next_week</i>
         <p>Solicitudes</p>
       </a>

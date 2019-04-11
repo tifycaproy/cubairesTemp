@@ -93,8 +93,8 @@ class homeController extends Controller
             // dd($detalles_cliente);
             $solicitudes=Solicitudes::select(DB::raw('solicitudes.id,titulo_servicio, fecha_desde, fecha_hasta, numero_nino, numero_adulto, solicitudes.created_at, case  
             when estatus_solicitud LIKE 0 then "Pendiente por Confirmación" 
-            when estatus_solicitud LIKE 1 then "new"
-            when estatus_solicitud LIKE 2 then "pack"
+            when estatus_solicitud LIKE 1 then "Confirmado"
+            when estatus_solicitud LIKE 2 then "Rechazado"
          end as estatus_solicitud'))
                             ->join('servicios', 'servicios.id', '=', 'solicitudes.servicio_id')
                             ->where('detalle_cliente_id',$detalles_cliente->id)
