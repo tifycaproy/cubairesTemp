@@ -27,10 +27,11 @@ class Notificacion extends Mailable
      *
      * @return $this
      */
-    public function build()
+    public function build(Request $request)
     {
-        $titulo="Su registro fue todo un exito";
-        $mensaje="Pronto nos pondremos en contacto con usted";
+        // dd($request);
+        $titulo    =$request['titulo'];
+        $mensaje =$request['mensaje'];        
         return $this->from('notificacion@cubaires.com')
                     ->view('Frontend.Mail.mail')
                     ->with([

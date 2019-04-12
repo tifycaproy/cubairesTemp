@@ -33,7 +33,7 @@ Route::post('catalogo/buscar', 'Frontend\homeController@catalogo')->name('catalo
 
 Route::get('sesion', 'Frontend\homeController@sesion')->name('sesion');
 Route::get('usuario', 'Frontend\homeController@usuario')->name('usuario');
-Route::get('solicitar', 'Frontend\homeController@solicitar')->name('solicitar');
+Route::get('solicitar/{id}', 'Frontend\homeController@solicitar')->name('solicitar');
 Route::get('recuperar', 'Frontend\homeController@recuperar')->name('recuperar');
 Route::get('contrasena', 'Frontend\homeController@contrasena')->name('contrasena');
 

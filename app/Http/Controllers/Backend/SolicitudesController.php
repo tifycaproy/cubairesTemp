@@ -132,6 +132,8 @@ class SolicitudesController extends Controller
                 ->first();
 
             Mail::to($solicitud->email)->send(new Respuestas($request));
+
+            return redirect()->route("versolicitudes",['mensaje'=>0]);
     }
 
     /**
@@ -140,38 +142,43 @@ class SolicitudesController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $id)
     {
         // dd($request);
         // return view('Frontend.Mail.mail');
-        if(Auth::user() && Auth::user()->hasRole('client')){
-            
-            $detalles_cliente=User::join('role_user', 'role_user.user_id', '=', 'users.id')
-                           ->join('detalles_clientes', 'detalles_clientes.role_user_id', '=', 'role_user.id')
-                            ->where('users.id',Auth::user()->id)
-                            ->first();
-            // dd($detalles_cliente);
-            
-            $solicitud = new Solicitudes;
-            $solicitud->fill($request->input());
-            $solicitud->estatus_solicitud = 0;
-            $solicitud->detalle_cliente_id = $detalles_cliente->id;
-            $solicitud->servicio_id = $request->servicio_id;
-            $solicitud->save();
-            
-            $config = Configuraciones::get();
-            $correo = User::where('id',Auth::user()->id)->pluck('email');
-            Mail::to($correo)->send(new Notificacion($config));
+        if(Auth::user()){
+            if(Auth::user()->hasRole('client')){
+                
+                $detalles_cliente=User::join('role_user', 'role_user.user_id', '=', 'users.id')
+                            ->join('detalles_clientes', 'detalles_clientes.role_user_id', '=', 'role_user.id')
+                                ->where('users.id',Auth::user()->id)
+                                ->first();
+                // dd($detalles_cliente);
+                
+                $solicitud = new Solicitudes;
+                $solicitud->fill($request->input());
+                $solicitud->estatus_solicitud = 0;
+                $solicitud->detalle_cliente_id = $detalles_cliente->id;
+                $solicitud->servicio_id = $id;
+                $solicitud->save();
+                
+                $config = Configuraciones::get();
+                $correo = User::where('id',Auth::user()->id)->pluck('email');
+                
+                // $datos['titulo']="Su registro fue todo un exito";
+                // $datos['mensaje']="Pronto nos pondremos en contacto con usted";
+                Mail::to($correo)->send(new Notificacion($request));
 
-              return redirect()->route("usuario");
-            
-        }
-        else{
-            if(Auth::user()){
-                return redirect()->route("versolicitudes");
+                return redirect()->route("usuario");
+                
             }
             else{
-                return redirect()->route("/");
+                if(Auth::user()){
+                    return redirect()->route("versolicitudes");
+                }
+                else{
+                    return redirect()->route("/");
+                }
             }
         }
     }
@@ -207,12 +214,37 @@ class SolicitudesController extends Controller
      * @param  \App\Solicitudes  $solicitud
      * @return \Illuminate\Http\Response
      */
-    public function update($solicitudes,$estatus_solicitud)
+    public function update(Request $request,$solicitudes,$estatus_solicitud)
     {         
         // dd($estatus_solicitud);
         Solicitudes::where('id', $solicitudes)
                     ->update(['estatus_solicitud'=>$estatus_solicitud]);
-        $estatus_solicitud;
+
+        $solicitud=  Solicitudes::select(DB::raw('solicitudes.id, email, titulo_servicio, numero_adulto, numero_nino, fecha_desde, fecha_hasta, observacion, solicitudes.created_at, estatus_solicitud, name'))
+                                ->join('servicios', 'servicios.id', '=', 'solicitudes.servicio_id')
+                                ->join('detalles_clientes', 'detalles_clientes.id', '=', 'solicitudes.detalle_cliente_id')
+                                ->join('role_user', 'role_user.id', '=', 'detalles_clientes.role_user_id')
+                                ->join('users', 'users.id', '=', 'role_user.user_id')
+                                ->where('solicitudes.id',$solicitudes)
+                                ->first();
+        
+        
+        switch ($estatus_solicitud) {           
+            case 1:
+                $request->request->add(['titulo' => 'Gracias por su preferencia']);
+                $request->request->add(['mensaje' => 'Su paquete solicitado ha sido aceptado']);
+                break;
+            case 2:
+                $request->request->add(['titulo' => 'Lo sentimos mucho']);
+                $request->request->add(['mensaje' => 'El paquete que usted solicitó no pudo ser procesado']);                
+                break;
+            
+            default:
+                # code...
+                break;
+        }
+        
+        Mail::to($solicitud->email)->send(new Notificacion($request));
 
         return redirect()->route("versolicitudes",['mensaje'=>$estatus_solicitud]);
     }

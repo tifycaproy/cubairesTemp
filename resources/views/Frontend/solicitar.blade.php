@@ -15,7 +15,7 @@
                           
                             <div class="last_title text-center">Rellena los siguientes campos para continuar</div><br>
                             
-                            <form action="{{ route('ingresarsolicitud',['servicio'=>$_REQUEST["paquete"]]) }}" id="contact_form" class="clearfix" method="POST" enctype="multipart/form-data">
+                            <form action="{{ route('ingresarsolicitud',['id'=>$paquete_id]) }}" id="contact_form" class="clearfix" method="POST" enctype="multipart/form-data">
                                 {{ csrf_field() }} 
                                 <label for="example-date-input" class="col-12 col-form-label">Fecha de Disfrute</label>
                                 <label for="example-date-input" class="col-5 col-form-label">Desde</label>
@@ -27,12 +27,10 @@
                                 <input id="contact_input_subject" name="numero_adulto" class="contact_input col-5" type="tel" placeholder="-">                                
                                 <input id="contact_input_email" name="numero_nino" class="contact_input col-5" type="tel" placeholder="-" required="required" data-error=" required.">
                                 <input id="contact_input_subject" name="observacion" class="contact_input col-10" type="text" placeholder="Observaciones">
-                            <input id="contact_input_subject" name="servicio_id" value="{{$_REQUEST["paquete"]}}" hidden class="contact_input col-10" type="password" placeholder="Observaciones">
-                            
-                            
-
-                            
+                                <input id="contact_input_subject" hidden name="titulo" class="contact_input col-10" type="password" placeholder="Observaciones" value="Su registro fue todo un exito">
+                                <input id="contact_input_subject" hidden name="mensaje" class="contact_input col-10" type="password" placeholder="Observaciones" value="Pronto nos pondremos en contacto con usted">
                                 <input type="submit" class="button last_button" value="Solicitar">
+
                            
                         </form>
                         </div>

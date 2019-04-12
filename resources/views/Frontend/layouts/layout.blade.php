@@ -72,9 +72,8 @@
                                 <li class="main_nav_item {{ Request::is('catalogo*') ? 'active' : '' }}"><a href="{{route('catalogo')}}">Catálogo</a></li>
                                 @if(Auth::user())
                                 @if (Auth::user()->hasRole('client'))
-                                    
-                                @endif
-                                <li class="main_nav_item {{ Request::is('sesion*') ? 'active' : '' }}"><a href="{{route('usuario')}}">{{Auth::user()->name}}</a></li>
+                                    <li class="main_nav_item {{ Request::is('sesion*') ? 'active' : '' }}"><a href="{{route('usuario')}}">{{Auth::user()->name}}</a></li>
+                                @endif                                
                                 @else
                                 <li class="main_nav_item {{ Request::is('sesion*') ? 'active' : '' }}"><a href="{{route('sesion')}}">Ingresa</a></li>
                                 @endif

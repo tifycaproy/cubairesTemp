@@ -77,9 +77,18 @@ class homeController extends Controller
     }
 
     public function sesion(Request $request){
-        $request['lugar']="";
-        $request['paquete']="";
-        return view('Frontend.sesion',$request);
+        if(Auth::user()){
+            if(Auth::user()->hasRole('client')){
+                return redirect()->route("usuario");    
+            }            
+        }        
+        else{
+            $lugar="login";
+            $paquete=NULL;
+            return view('Frontend.sesion',['lugar'=>$lugar,'paquete'=>$paquete]);
+        }
+        
+        
     }
 
     public function usuario(Request $request){  
@@ -122,7 +131,24 @@ class homeController extends Controller
         
     }
 
-    public function solicitar(Request $request){
+    public function solicitar(Request $request, $id){
+        
+        // dd($id);
+        if(Auth::user()){
+            if(Auth::user()->hasRole('client')){
+
+                return view('Frontend.solicitar',['paquete_id'=>$id]);
+            }
+        }
+        else{
+            $lugar="solicitud";
+            $request->session()->put('paquete', $id);
+            return view('Frontend.sesion',['paquete_id'=>$id]); 
+            // redirect()->route('sesion2',['lugar'=>$lugar,'paquete'=>$request->paquete]);            
+        }
+    }
+
+    public function solicitud(Request $request,$id){
         // dd($request);
         if(Auth::user()){
             if(Auth::user()->hasRole('client')){
@@ -131,23 +157,8 @@ class homeController extends Controller
         }
         else{
             $lugar="solicitud";
-            $request->session()->put('paquete', $request->paquete);
-            return view('Frontend.sesion',['lugar'=>$lugar,'paquete'=>$request->paquete]); 
-            // redirect()->route('sesion2',['lugar'=>$lugar,'paquete'=>$request->paquete]);            
-        }
-    }
-
-    public function solicitud(Request $request){
-        dd($request);
-        if(Auth::user()){
-            if(Auth::user()->hasRole('client')){
-                return view('Frontend.solicitar');
-            }
-        }
-        else{
-            $lugar="solicitud";
-            $request->session()->put('paquete', $request->paquete);
-            return view('Frontend.sesion',['lugar'=>$lugar,'paquete'=>$request->paquete]); 
+            $request->session()->put('paquete', $id);
+            return view('Frontend.sesion',['lugar'=>$lugar,'paquete'=>$solicitar]); 
             // redirect()->route('sesion2',['lugar'=>$lugar,'paquete'=>$request->paquete]);            
         }
     }

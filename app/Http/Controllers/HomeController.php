@@ -24,21 +24,17 @@ class HomeController extends Controller
      */
      public function index(Request $request)
       {
-        $data=$_SERVER["HTTP_REFERER"];
-        $info=explode("?",$data);
-        if(Auth::user()->hasRole('client')){
-          if(count($info)>1){
-            if($info[1]=="paquete=1"){
-              return redirect()->back();
-            }
-          }          
-          else{
-            return redirect()->route("usuario");
-          }
+        // dd(Auth::user());
+        
+        if(Auth::user()->hasRole('client')){         
+            
+            return redirect()->back();
+            // return redirect()->route("usuario");
+          
         }
         else{
           $request->user()->authorizeRoles(['user', 'admin']);
-
+          // dd($request);
 
           // return view('home');
           //redirecciona cuando inicia sesión al panel administrativo

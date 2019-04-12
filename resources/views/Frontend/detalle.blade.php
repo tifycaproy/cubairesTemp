@@ -64,7 +64,7 @@
                                 <div class="button about_button ml-2" data-toggle="collapse" href="#multiCollapseExample2" role="button" aria-expanded="false" aria-controls="multiCollapseExample2"><a >Condiciones</a></div>
                                 </div>
 
-                                <div class="button about_button" ><a href="{{route('solicitar',['paquete'=>$paquete->id])}}">Solicitar</a></div>
+                                <div class="button about_button" ><a href="{{route('solicitar',['id'=>$paquete->id])}}">Solicitar</a></div>
 
                                 
                             </div>                         
