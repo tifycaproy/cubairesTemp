@@ -20,6 +20,8 @@
 // FRONTEND
 // 
 // 
+// 
+// 
 
 Route::get('/', 'Frontend\homeController@index')->name('/');
 Route::get('nosotros', 'Frontend\homeController@nosotros')->name('nosotros');

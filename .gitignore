@@ -2,6 +2,10 @@
 /public/hot
 /public/storage
 /storage/*.key
+public/images/categorias/*
+public/images/comentarios/*
+public/images/servicios/*
+public/images/sliders/*
 /vendor
 /.idea
 /.vagrant
