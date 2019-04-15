@@ -28,7 +28,6 @@
                                         <strong>{{ $errors->first('password') }}</strong>
                                     </span>
                                 @endif
-
                             <div>
                                     <input class="button last_button" type="submit" value="Ingresar">
                             </div>

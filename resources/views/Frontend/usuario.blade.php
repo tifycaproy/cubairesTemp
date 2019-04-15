@@ -1,7 +1,9 @@
 @extends ('Frontend.layouts.layout')
 
 @section('contenido')
-
+@php
+  use Carbon\Carbon;
+@endphp
 
 
     <!-- Home -->
@@ -218,54 +220,30 @@
                         @if ($solicitudes!="")
                         <table class="table table-bordered">
                             <thead>
-                              <tr>
-                                <th style="width:40%;">Name</th>
-                                <th style="width:25%">Phone Number</th>
-                                <th class="d-none d-md-table-cell" style="width:25%">Date of Birth</th>
-                                <th>Actions</th>
-                              </tr>
-                            </thead>
-                            <tbody>
-                              <tr>
-                                <td>Michelle Bilodeau</td>
-                                <td>864-348-0485</td>
-                                <td class="d-none d-md-table-cell">June 21, 1961</td>
-                                <td class="table-action">
-                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Alexander Groves</td>
-                                <td>914-939-2458</td>
-                                <td class="d-none d-md-table-cell">May 15, 1948</td>
-                                <td class="table-action">
-                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Kathie Burton</td>
-                                <td>704-993-5435</td>
-                                <td class="d-none d-md-table-cell">September 14, 1965</td>
-                                <td class="table-action">
-                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Daisy Seger</td>
-                                <td>765-382-8195</td>
-                                <td class="d-none d-md-table-cell">April 2, 1971</td>
-                                <td class="table-action">
-                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                                </td>
-                              </tr>
-                              <tr>
-                                <td>Amanda Jones</td>
-                                <td>202-672-1407</td>
-                                <td class="d-none d-md-table-cell">October 12, 1966</td>
-                                <td class="table-action">
-                                    <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
-                                </td>
-                              </tr>
+                                <tr>
+                                  <th>Paquete</th>
+                                  <th>Desde / Hasta</th>
+                                  <th class="d-none d-md-table-cell">N° niño</th>
+                                  <th class="d-none d-md-table-cell">N° adulto</th>
+                                  <th class="d-none d-md-table-cell">Fecha Solicitud</th>
+                                  <th class="d-none d-md-table-cell">Estatus</th>
+                                  <th>Acción</th>
+                                </tr>
+                              </thead>
+                              <tbody>
+                        @foreach ($solicitudes as $solicitud)
+                        <tr>
+                        <td>{{$solicitud->titulo_servicio}}</td>
+                            <td>{{Carbon::parse($solicitud->fecha_desde)->format('d-m-Y')}} / {{Carbon::parse($solicitud->fecha_hasta)->format('d-m-Y')}}</td>
+                            <td class="d-none d-md-table-cell">{{$solicitud->numero_nino}}</td>
+                            <td class="d-none d-md-table-cell">{{$solicitud->numero_adulto}}</td>
+                            <td class="d-none d-md-table-cell">{{Carbon::parse($solicitud->created_at)->format('d-m-Y')}}</td>
+                            <td class="d-none d-md-table-cell">{{$solicitud->estatus_solicitud}}</td>
+                            <td class="table-action">
+                                <i class="fas fa-eye" href="#" style="font-size: x-large; color: dimgray;"></i>
+                            </td>
+                        </tr>
+                        @endforeach
                             </tbody>
                           </table>
                         @else     
@@ -281,6 +259,7 @@
                   </div>
         
                 </div>
+              </div>
               </main>
               
             </div>

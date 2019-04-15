@@ -36,12 +36,12 @@
         <p>Preguntas Frecuentes</p>
       </a>
     </li> --}}
-    {{-- <li id="tramites" class="nav-item">
-      <a class="nav-link disabled" href="{{ route('vertramites')}}">
+    <li id="tramites" class="nav-item">
+      <a class="nav-link disabled" href="{{ route('versolicitudes',['mensaje'=>0])}}">
         <i class="material-icons">next_week</i>
-        <p>Trámites</p>
+        <p>Solicitudes</p>
       </a>
-    </li> --}}
+    </li>
 
     @if(Auth::user()->hasRole('admin'))
     <li id="usuarios" class="nav-item">

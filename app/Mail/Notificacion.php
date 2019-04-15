@@ -8,10 +8,10 @@ use Illuminate\Queue\SerializesModels;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Http\Request;
 
-class Contacto extends Mailable
+class Notificacion extends Mailable
 {
     use Queueable, SerializesModels;
-
+   
     /**
      * Create a new message instance.
      *
@@ -19,7 +19,7 @@ class Contacto extends Mailable
      */
     public function __construct()
     {
-        //
+        
     }
 
     /**
@@ -29,18 +29,16 @@ class Contacto extends Mailable
      */
     public function build(Request $request)
     {
-        $name    =$request['name'];
-        $mail    =$request['mail'];
-        $mensaje =$request['mensaje'];
-
-        return $this->from('info@consuljuridica.com')
-                    ->view('Frontend.Mail.contacto')
+        // dd($request);
+        $titulo    =$request['titulo'];
+        $mensaje =$request['mensaje'];        
+        return $this->from('notificacion@cubaires.com')
+                    ->view('Frontend.Mail.mail')
                     ->with([
-                            'name' => $name,
-                            'mail' => $mail,
-                            'mensaje' => $mensaje,
+                            
+                            'titulo' => $titulo,
+                            'mensaje' => $mensaje,                            
                       ])
-                    ->subject('Mensaje Web');
-    }
-    
+                    ->subject('Notificación Web');
+    }    
 }
